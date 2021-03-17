@@ -1,0 +1,120 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
+<!-- This file shows how to design a first-run page that provides a welcome screen to the user about the features of the add-in. -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bible IO Add-in</title>
+
+    <!-- Office JavaScript API -->
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+    <link rel="stylesheet" href="../../assets/css/bulma.min.css" />
+    <link rel="stylesheet" href="../../assets/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link href="taskpane.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <!--<h3 class="title has-text-centered"><i class="fa fa-camera-retro is-large"></i></h3>-->
+    <div class="has-text-centered"><img src="../../assets/icon-64.png" alt="" /></div>
+    <section id="sideload-msg" class="notification is-danger">
+      <h2 class="ms-font-xl">Please sideload your add-in to see app body.</h2>
+    </section>
+    <main id="app-body" style="display: none;">
+      <section id="appSection" class="section" style="padding-top: 0;display: flex;">
+        <form>
+          <label class="label">Buscar por cita.</label>
+          <div class="field has-addons">
+            <div class="control has-icons-right is-expanded">
+              <input class="input" type="text" placeholder="Juan 3, 16" value="" id="txtQuote" />
+            </div>
+            <div class="control" id="getByQuote">
+              <a class="button is-info" title="Consultar">
+                <i class="fa fa-search"></i>
+              </a>
+            </div>
+          </div>
+          <p id="lbErrMsg" class="help is-danger"></p>
+
+          <label class="label">Buscar por palabra clave.</label>
+          <div class="field has-addons">
+            <div class="control has-icons-right is-expanded">
+              <input class="input" type="text" placeholder="Creación" value="" id="txtKeyword" />
+            </div>
+            <div class="control" id="getByKeyword">
+              <a class="button is-info" title="Consultar">
+                <span class="icon">
+                  <i class="fa fa-search"></i>
+                </span>
+              </a>
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <label class="checkbox">
+                <input type="checkbox" id="chkExactMatch" />
+                Coincidencia exacta
+              </label>
+            </div>
+          </div>
+          <hr />
+          <div class="field">
+            <div class="control">
+              <label class="label">Versión.</label>
+              <div class="select is-rounded is-fullwidth">
+                <select id="cbVersion">
+                  <option value="CEI2008">Conferenza Episcopale Italiana|2008|it</option>
+                  <option value="DRB">Douay–Rheims Challoner Revision|1752|en</option>
+                  <option value="LUZZI">Riveduta - Luzzi|1924|it</option>
+                  <option value="NABRE">New American Bible - Revised Edition|2011|en</option>
+                  <option value="NVBSE">Nova Vulgata - Bibliorum Sacrorum Editio|1979|la</option>
+                  <option value="VGCL">Vulgata Clementina|1592|la</option>
+                  <option value="BLPD">Libro del Pueblo de Dios|2015|es</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Origen preferido.</label>
+            <div class="control">
+              <label class="radio">
+                <input type="radio" name="rdOrigin" value="GREEK" checked />
+                Griego
+              </label>
+              <label class="radio">
+                <input type="radio" name="rdOrigin" value="HEBREW" />
+                Hebreo
+              </label>
+            </div>
+          </div>
+        </form>
+      </section>
+      <section id="searchResultsSection" class="section" style="display: none; padding-top: 0">
+        <div>
+          <div class="field">
+            <div class="control has-icons-right is-expanded">
+              <input class="input" type="text" placeholder="Filtrar" value="" id="txtFilter" />
+              <span class="icon is-small is-right">
+                <i class="fas fa-search"></i>
+              </span>
+            </div>
+          </div>
+          <ul id="lstResults">
+            <!--<li>
+              <p class="verse-text">
+                <a href="#" class="icon is-large ins-result-icon"><i class="fa fa-download" ></i></a> Y
+                Dios creó al hombre a su imagen; lo creó a imagen de Dios, los creó varón y mujer.
+                <span class="verse-quote">Gen1:27</span>
+              </p>
+            </li>-->
+            
+          </ul>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
