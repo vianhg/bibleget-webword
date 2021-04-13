@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bible IO Add-in</title>
+
+    <!-- Office JavaScript API -->
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+    <link rel="stylesheet" href="../../assets/css/bulma.min.css" />
+    <link rel="stylesheet" href="../../assets/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link href="taskpane.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <!--<h3 class="title has-text-centered"><i class="fa fa-camera-retro is-large"></i></h3>-->
+    <div class="has-text-centered"><img src="../../assets/icon-64.png" alt="" /></div>
+    <section id="sideload-msg" class="notification is-danger">
+      <h2 class="ms-font-xl">Please sideload your add-in to see app body.</h2>
+    </section>
+    <main id="app-body" style="display: flex;">
+      <!--none-->
+      <!--<div class="tabs">
+        <ul>
+          <li class="is-active"><a>Formato del texto</a></li>
+          <li><a>Disposición preferida</a></li>
+          <li><a>Versiones e Idiomas compatibles</a></li>
+        </ul>
+      </div>-->
+      <section>
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title">
+              Estilo de párrafo
+            </p>
+            <button class="card-header-icon" aria-label="more options">
+              <span class="icon">
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </button>
+          </header>
+          <div class="card-content">
+            <div class="content">
+              <form>
+                <div class="field is-grouped-multiline is-horizontal">
+                  <div class="select is-rounded is-fullwidth">
+                    <select>
+                      <option>Arial</option>
+                    </select>
+                  </div>
+                  <p class="control">
+                    <button id="btLeftIndent" class="button is-white"><i class="fa fa-outdent"></i></button>
+                  </p>
+                  <p class="control">
+                    <button class="button is-white"><i class="fa fa-indent"></i></button>
+                  </p>
+                  <div class="control">
+                    <button class="button is-white"><i class="fa fa-align-left"></i></button>
+                  </div>
+                  <div class="control">
+                    <button class="button is-white"><i class="fa fa-align-center"></i></button>
+                  </div>
+                  <div class="control">
+                    <button class="button is-white"><i class="fa fa-align-right"></i></button>
+                  </div>
+                  <div class="control">
+                    <button class="button is-white"><i class="fa fa-align-justify"></i></button>
+                  </div>
+                  <div class="dropdown is-active">
+                    <div class="dropdown-trigger">
+                      <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                        <i class="fas fa-arrows-alt-v"></i>
+                      </button>
+                    </div>
+                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                      <div class="dropdown-content">
+                        <a href="#" class="dropdown-item">
+                          1.0
+                        </a>
+                        <a class="dropdown-item">
+                          1.5
+                        </a>
+                        <a href="#" class="dropdown-item is-active">
+                          2.0
+                        </a>                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

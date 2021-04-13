@@ -4,7 +4,6 @@
  */
 
 // images references in the manifest
-import "./common-office";
 
 /* global document, Office, Word */
 
@@ -15,7 +14,9 @@ Office.onReady(info => {
     document.getElementById("getByQuote").onclick = getByQuote;
     document.getElementById("getByKeyword").onclick = getByKeyword;
     document.getElementById("txtQuote").onkeyup = validateQuote;
-    document.getElementById("txtFilter").onkeyup = filterSearchResults;
+    document.getElementById("btSettings").onclick = showSettings;
+    document.getElementById("btHelp").onclick = showHelp;
+    document.getElementById("btAbout").onclick = showAbout;
     setPreferedVersionByLang();
   }
 });
@@ -39,8 +40,8 @@ export async function getByQuoteOffice(document, context) {
   const quote = document.getElementById("txtQuote").value;
   const version = document.getElementById("cbVersion").value;
   const preferOrigin = getPreferedOrigin();
-  console.log("preferOrigin:" + preferOrigin);
-  if (quote.trim() != "" && isValidQuote(quote)) {
+
+  if (quote.trim() != "" && isValidQuote(quote) && version) {
     await searchByQuote(context.document, quote, version, preferOrigin);
   }
 }
@@ -106,74 +107,49 @@ export async function getByKeywordOffice(document, context) {
   const version = document.getElementById("cbVersion").value;
 
   if (keyword.trim() != "") {
-    await searchByKeyword(context.document, keyword.trim(), version, exactmatch);
+    await searchByKeyword(keyword.trim(), version, exactmatch);
   }
 }
 
-var results;
-async function searchByKeyword(document, keyword, version, exactmatch) {
-  try {
-    results = await BibleGetService.searchKeyword(keyword, version, exactmatch);
-
-    if (results.length == 1) {
-      insertQuote(document, results[0]);
-    } else {
-      showResultsSection();
+var dialog;
+async function searchByKeyword(keyword, version, exactmatch) {
+  Office.context.ui.displayDialogAsync(
+    `https://localhost:3000/search-results.html?keyword=${keyword}&version=${version}&exactmatch=${exactmatch}`,
+    {
+      height: 70,
+      width: 50
+    },
+    function(asyncResult) {
+      dialog = asyncResult.value;
+      dialog.addEventHandler(Office.EventType.DialogMessageReceived, processMessage);
     }
-  } catch (e) {
-    notifyError(`Hubo un problema al buscar por palabra clave en el servidor.`);
-    console.error(e);
+  );
+}
+
+function processMessage(arg) {
+  var messageFromDialog = JSON.parse(arg.message);
+  console.log(messageFromDialog.action);
+  if (messageFromDialog.action === "close") {
+    dialog.close();
+  } else if (messageFromDialog.action === "ins") {
+    insertResult(messageFromDialog.quote);
   }
 }
+
+export const insertResult = q => {
+  return Word.run(async context => {
+    await insertQuote(context.document, q);
+    await context.sync();
+  });
+};
 
 function insertQuote(document, quote) {
+  //context.document
   let range = document.getSelection();
   const verse = range.insertText(quote.verse + " ", "End");
   verse.font.superscript = true;
   const text = range.insertText(quote.text, "End");
   text.font.superscript = false;
-}
-
-function showResultsSection() {  
-      //Office.context.ui.displayDialogAsync('https://localhost:3000/search-results.html');
-      //TODO Show a wait cursor/wheel...
-  document.getElementById("appSection").style.display = "none";
-  let list = document.getElementById("lstResults");
-  for (let i in results) {
-    let entry = createResultItem(i);
-    list.appendChild(entry);
-  }
-  document.getElementById("searchResultsSection").style.display = "flex";
-}
-
-function createResultItem(i) {  
-  const p = document.createElement('p');
-  p.classList.add("verse-text");
-  const a = document.createElement('a');
-  a.classList.add("icon");
-  a.classList.add("is-large");
-  a.classList.add("ins-result-icon");
-  a.onclick = (i) => insertResult(i);
-  a.innerHTML = '<i class="fa fa-arrow-circle-down"></i>';
-  p.appendChild(a); //TODO Ensayar con tabla... tal vez serìa màs fàcil
-  p.appendChild(document.createTextNode(results[i].text));
-  const query = document.createElement('span');
-  query.classList.add("verse-quote");
-  query.appendChild(document.createTextNode(results[i].originalquery));
-  p.appendChild(query);
-  //a.innerHTML = `<i class="fa fa-arrow-circle-down"></i></a> ${results[i].text} <span class="verse-quote">${results[i].originalquery}</span>`;
-  //entry.appendChild(document.createTextNode(res.text));
-  //entry.innerHTML = `<p class="verse-text">
-  //<a href="#" class="icon is-large ins-result-icon" onclick="insertResult(${i})"><i class="fa fa-arrow-circle-down"></i></a>${results[i].text}
-  //<span class="verse-quote">${results[i].originalquery}</span></p>`;
-  p.appendChild(a);
-  let entry = document.createElement('li');
-  entry.appendChild(p);
-  return entry;
-}
-
-export const insertResult = (i) => {
-  console.log(results[i]);
 }
 
 /**************************************** */
@@ -195,18 +171,24 @@ async function loadVersions() {
     console.error(e);
   }
 }
-/***************************************************/
-export const filterSearchResults = () => {
-  const filter = document.getElementById("txtFilter").value.toLowerCase();
-
-  let results = document.querySelectorAll("#lstResults li");
-  for (let res of results) {
-    if (res.innerHTML.toLowerCase().indexOf(filter) == -1) {
-      res.classList.add("hide");
-    } else {
-      res.classList.remove("hide");
-    }
+/***************************************************
+export const backSearchResults = () => {
+  document.getElementById("searchResultsSection").style.display = "none";
+  let lstResults = document.getElementById("lstResults");
+  while (lstResults.firstChild) {
+    lstResults.removeChild(lstResults.firstChild);
   }
+  document.getElementById("appSection").style.display = "flex";
+};
+/***************************************************/
+export const showSettings = () => {
+  Office.context.ui.displayDialogAsync("https://localhost:3000/settings.html", { height: 70, width: 50 });
+};
+export const showHelp = () => {
+  Office.context.ui.displayDialogAsync("https://localhost:3000/help.html", { height: 70, width: 50 });
+};
+export const showAbout = () => {
+  Office.context.ui.displayDialogAsync("https://localhost:3000/about.html", { height: 70, width: 50 });
 };
 /***************************************************/
 const regex = /^\d*[a-z]+\d+(([,:]\d+)?(-\d+)?)?$/i;
@@ -228,52 +210,18 @@ export const validateQuote = () => {
 function notifyError(errorMessage) {
   document.getElementById("lbErrMsg").innerHTML = errorMessage;
 }
-/**************************************** */
+/*************************************************************************************************/
 const axios = require("axios");
 //const url = require('url');
 const BGET_ENDPOINT = "https://query.bibleget.io/v3/index.php?";
-const BGET_SEARCH_ENDPOINT = "https://query.bibleget.io/v3/search.php?";
 const BGET_METADATA_ENDPOINT = "https://query.bibleget.io/v3/metadata.php?";
 
-var BibleGetService = {
+export var BibleGetService = {
   getByQuote: async function(quote, version = "CEI2008", preferOrigin = "GREEK") {
     const payload = { query: quote, version: version, preferorigin: preferOrigin, return: "json", appid: "office" };
     //const params = new url.URLSearchParams(payload);
     const response = await axios.get(BGET_ENDPOINT, { params: payload });
     return response.data.results;
-  },
-  searchKeyword: async function(keyword, version = "CEI2008", exactmatch) {
-    const payload = {
-      query: "keywordsearch",
-      keyword: keyword,
-      version: version,
-      return: "json",
-      appid: "office",
-      pluginversion: 1,
-      exactmatch: exactmatch
-    };
-    //const response = await axios.get(BGET_SEARCH_ENDPOINT, { params: payload });
-    //return response.data.results;
-    return [
-      {
-        verse: "27",
-        text: "Y Dios creó al hombre a su imagen; lo creó a imagen de Dios, los creó varón y mujer.",
-        version: "BLPD",
-        originalquery: "Gen1:27"
-      },
-      {
-        verse: "2",
-        text: "Lorem ipsum doloret sit",
-        version: "BLPD",
-        originalquery: "Gen1:27"
-      },
-      {
-        verse: "27",
-        text: "Beresit bara elohim, we ha ash",
-        version: "BLPD",
-        originalquery: "Gen1:27"
-      }
-    ];
   },
   getVersions: async function() {
     const payload = { query: "bibleversions", return: "json" };

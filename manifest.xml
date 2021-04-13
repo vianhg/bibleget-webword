@@ -14,6 +14,7 @@
   <SupportUrl DefaultValue="https://www.bibleget.io"/>
   <AppDomains>
     <AppDomain>https://www.bibleget.io</AppDomain>
+    <AppDomain>https://localhost:3000</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Document"/>
@@ -193,7 +194,7 @@
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="GetStarted.Title" DefaultValue="Congratulations!" />
-        <bt:String id="CommandsGroup.Label" DefaultValue="Commands Group" />
+        <bt:String id="CommandsGroup.Label" DefaultValue="Bible Get Add-in" />
         <bt:String id="TaskpaneButton.Label" DefaultValue="Bible Get Add-in" />
       </bt:ShortStrings>
       <bt:LongStrings>

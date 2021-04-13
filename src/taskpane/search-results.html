@@ -6,15 +6,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Bible IO Add-in</title>
 
+    <!-- Office JavaScript API -->
     <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
+    
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 
     <link rel="stylesheet" href="../../assets/css/bulma.min.css" />
     <link rel="stylesheet" href="../../assets/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link href="taskpane.css" rel="stylesheet" type="text/css" />
   </head>
 
   <body>
-    <section>
-      <p>Hello</p>
-    </section>
+    <!--<h1 >aa</h1>-->
+    <div class="has-text-centered"><img src="../../assets/icon-64.png" alt="" /></div>
+    
+      <section id="searchResultsSection" class="section" style="padding-top: 0">
+        <div>
+          <div class="field">
+            <div class="control has-icons-right is-expanded">
+              <input class="input" type="text" placeholder="Filtrar" value="" id="txtFilter" />
+              <span class="icon is-small is-right">
+                <i class="fas fa-search"></i>
+              </span>
+            </div>
+          </div>
+          <div class="notification is-light pb-1 pt-1"><i id="lbResultsCount">X</i> resultados encontrados</div>
+          <div id="lbErrMsg" class="help is-danger"></div>
+          <!--<div class="block">
+            <div class="columns is-centered">
+              <div class="column is-10">
+                <nav class="pagination is-rounded" role="navigation" aria-label="pagination">                  
+                  <ul class="pagination-list">
+                    <li>
+                      <a class="pagination-link" aria-label="Goto page 1">1</a>
+                    </li>
+                    <li>
+                      <a class="pagination-link" aria-label="Goto page 2">2</a>
+                    </li>
+                    <li>
+                      <a class="pagination-link" aria-label="Goto page 3">3</a>
+                    </li>
+                    <li>
+                      <span class="pagination-ellipsis">
+                        …
+                      </span>
+                    </li>
+                    <li>
+                      <a class="pagination-link" aria-label="Goto page 30">30</a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>-->
+          <table id="lstResults" class="table">
+            <!--results-->
+          </table>
+          
+          <div class="block">
+            <div class="field has-text-centered">
+              <div class="control">
+                <button class="button is-primary" id="btDone">
+                  Cerrar
+                </button>
+              </div>
+            </div>
+        </div>
+        </div>
+      </section>
   </body>
 </html>

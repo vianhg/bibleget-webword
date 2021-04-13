@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bible IO Add-in</title>
+
+    <!-- Office JavaScript API -->
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
+
+    <link rel="stylesheet" href="../../assets/css/bulma.min.css" />
+    <link rel="stylesheet" href="../../assets/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link href="taskpane.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <h2>Formulación de las consultas biblicas</h2>
+    <p>
+      Las consultas bíblicas se formulan de acuerdo con un conjunto de normas precisas, siguiendo la notación estándar
+      para las citas bíblicas. Una consulta consta de al menos dos elementos: el libro bíblico seguido por el capítulo.
+      El libro bíblico puede ser escrito por completo o por la forma abreviada utilizando las abreviaturas que figuran
+      en la tabla de las Abreviaturas de los libros bíblicos. Por ejemplo, "Mateo 1" significa el libro de Mateo (es
+      decir, el Evangelio según San Mateo) en el capítulo 1. También se puede escribir "Mt 1".
+    </p>
+    <p>
+      Lo que sigue es una presentación de los signos que sirven para indicar exactamente qué combinación de capítulos y
+      versículos desea citar.
+    </p>
+    <ul>
+      <li>
+        ",": la coma es el separador capítulo-versículo. "Mateo 1,5" significa el libro (Evangelio) de San Mateo,
+        capítulo 1, versículo 5.
+      </li>
+      <li>
+        ".": el punto es el separador versículo-versículo. "Mateo 1,5.7" significa el libro (Evangelio) de San Mateo,
+        capítulo 1, versículo 5 y versículo 7.
+      </li>
+      <li>"-": el guión es el separador desde - hasta, que puede ser utilizado en una variedad de maneras:</li>
+      <ol>
+        <li>
+          desde capítulo hasta capítulo: "Mateo 1-2" significa el evangelio según San Mateo, desde el capítulo 1 hasta
+          el capítulo 2
+        </li>
+        <li>
+          desde capítulo, versículo hasta versículo del mismo capítulo: "Mateo 1,1-5" significa el evangelio según San
+          Mateo, desde el capítulo 1, versículo 1 hasta el versículo 5
+        </li>
+        <li>
+          desde capítulo, versículo hasta capítulo, versículo: "Mateo 1,5-2,13" significa el evangelio según San
+          Mateo, desde el capítulo 1, versículo 5, hasta el capítulo 2, versículo 13
+        </li>
+      </ol>
+    </ul>
+    <p>
+      Las diferentes combinaciones de estos signos se pueden utilizar para formular consultas más complejas, por ejemplo
+      "Mt1,1-3.5.7-9" significa el evangelio según San Mateo, capítulo 1, versículos del 1 al 3, versículo 5, y los
+      versículos 7 a 9.
+    </p>
+    <p>
+      Múltiples consultas se pueden hacer a la vez utilizando un punto y coma ";" para concatenar las consultas. Si la
+      consulta que sigue el punto y coma se rifiere a el mismo libro de la consulta anterior, entonces no es necesario
+      indicar nuevamente el libro. Por ejemplo, "Mateo 1,1;2,13" significa el evangelio según San Mateo capítulo 1
+      versículo 1 y capítulo 2 versículo 13. Combinando todos estos signos, se pueden hacer consultas mucho más
+      complejas que toman versículos de diferentes libros: "Génesis 1,3-5.7.9-11.13;2,4-9.11-13;Apocalipsis
+      3,10.12-14".
+    </p>
+    <p>
+      No importa si las consultas tienen espacios, esto no tiene ningún efecto en el resultado final. Así como el uso de
+      mayúsculas o minúsculas no hace ninguna diferencia. "Génesis 1,1", "Gen1,1", "génesis1,1" y "gEn 1,1", por
+      ejemplo, van a funcionar con el mismo resultado.
+    </p>
+    <p>
+      Si observa cualquier error de operación en la extensión &#8220;BibleGet I/O&#8221;, o si tiene alguna sugerencia
+      para hacer que funcione mejor, puede enviar un mensaje usando la opcion &#8220;Enviar comentarios&#8221; en el
+      menú de la extensión.
+    </p>
+
+    <h2>Libros / Abreviaturas</h2>
+    <div id="tbBooks" class="columns">
+      <div class="column">Gen</div>
+      <div class="column">Génesis</div>
+    </div>
+  </body>
+</html>

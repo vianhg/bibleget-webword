@@ -1,0 +1,17 @@
+.verse-text {
+    color: inherit;
+  }
+  
+  .verse-quote {
+     font-size: small;
+     color: #09aa09;
+  }
+ 
+ #lstResults tr.hide {
+   display: none;
+ }
+ 
+ #lstResults tr td {   
+    padding: 0;
+    vertical-align: middle;
+ }

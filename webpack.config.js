@@ -5,8 +5,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const fs = require("fs");
 const webpack = require("webpack");
 
-const urlDev="https://localhost:3000/";
-const urlProd="https://www.bibleget.io/"; // CHANGE THIS TO YOUR PRODUCTION DEPLOYMENT LOCATION
+const urlDev = "https://localhost:3000/";
+const urlProd = "https://www.bibleget.io/"; // CHANGE THIS TO YOUR PRODUCTION DEPLOYMENT LOCATION
 
 module.exports = async (env, options) => {
   const dev = options.mode === "development";
@@ -16,7 +16,9 @@ module.exports = async (env, options) => {
     entry: {
       polyfill: "@babel/polyfill",
       taskpane: "./src/taskpane/taskpane.js",
-      commands: "./src/commands/commands.js"
+      commands: "./src/commands/commands.js",
+      sresults: "./src/taskpane/search-results.js",
+      help: "./src/taskpane/help.js"
     },
     resolve: {
       extensions: [".ts", ".tsx", ".html", ".js"]
@@ -27,7 +29,7 @@ module.exports = async (env, options) => {
           test: /\.js$/,
           exclude: /node_modules/,
           use: {
-            loader: "babel-loader", 
+            loader: "babel-loader",
             options: {
               presets: ["@babel/preset-env"]
             }
@@ -42,7 +44,7 @@ module.exports = async (env, options) => {
           test: /\.(png|jpg|jpeg|gif)$/,
           loader: "file-loader",
           options: {
-            name: '[path][name].[ext]',          
+            name: "[path][name].[ext]"
           }
         }
       ]
@@ -56,22 +58,86 @@ module.exports = async (env, options) => {
       }),
       new CopyWebpackPlugin({
         patterns: [
-        {
-          to: "taskpane.css",
-          from: "./src/taskpane/taskpane.css"
-        },
-        {
-          to: "[name]." + buildType + ".[ext]",
-          from: "manifest*.xml",
-          transform(content) {
-            if (dev) {
-              return content;
-            } else {
-              return content.toString().replace(new RegExp(urlDev, "g"), urlProd);
+          {
+            to: "taskpane.css",
+            from: "./src/taskpane/taskpane.css"
+          },
+          {
+            to: "[name]." + buildType + ".[ext]",
+            from: "manifest*.xml",
+            transform(content) {
+              if (dev) {
+                return content;
+              } else {
+                return content.toString().replace(new RegExp(urlDev, "g"), urlProd);
+              }
             }
           }
-        }
-      ]}),
+        ]
+      }),
+      new HtmlWebpackPlugin({
+        filename: "settings.html",
+        template: "./src/taskpane/settings.html",
+        chunks: ["polyfill", "settings"]
+      }),
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            to: "settings.css",
+            from: "./src/taskpane/settings.css"
+          }
+        ]
+      }),
+      new HtmlWebpackPlugin({
+        filename: "search-results.html",
+        template: "./src/taskpane/search-results.html",
+        chunks: ["polyfill", "sresults"]
+      }),
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            to: "search-results.css",
+            from: "./src/taskpane/search-results.css"
+          },
+          {
+            to: "[name]." + buildType + ".[ext]",
+            from: "manifest.xml",
+            transform(content) {
+              if (dev) {
+                return content;
+              } else {
+                return content.toString().replace(new RegExp(urlDev, "g"), urlProd);
+              }
+            }
+          }
+        ]
+      }),
+      new HtmlWebpackPlugin({
+        filename: "help.html",
+        template: "./src/taskpane/help.html",
+        chunks: ["polyfill", "help"]
+      }),
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            to: "help.css",
+            from: "./src/taskpane/help.css"
+          }
+        ]
+      }),
+      new HtmlWebpackPlugin({
+        filename: "about.html",
+        template: "./src/taskpane/about.html",
+        chunks: ["polyfill", "about"]
+      }),
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            to: "about.css",
+            from: "./src/taskpane/about.css"
+          }
+        ]
+      }),
       new HtmlWebpackPlugin({
         filename: "commands.html",
         template: "./src/commands/commands.html",
@@ -81,8 +147,8 @@ module.exports = async (env, options) => {
     devServer: {
       headers: {
         "Access-Control-Allow-Origin": "*"
-      },      
-      https: (options.https !== undefined) ? options.https : await devCerts.getHttpsServerOptions(),
+      },
+      https: options.https !== undefined ? options.https : await devCerts.getHttpsServerOptions(),
       port: process.env.npm_package_config_dev_server_port || 3000
     }
   };
