@@ -1,24 +1,20 @@
 Office.onReady().then(function() {
   document.getElementById("btDone").onclick = closeWindow;
-  document.getElementById("txtFilter").onkeyup = filterSearchResults;    
-    
-  //Office.context.ui.addHandlerAsync(Office.EventType.DialogParentMessageReceived, onMessageFromParent);
+  document.getElementById("txtFilter").onkeyup = filterSearchResults;
+
   const urlParams = new URLSearchParams(window.location.search);
   for (const [key, value] of urlParams) {
-      console.log(`${key}:${value}`);
+    console.log(`${key}:${value}`);
   }
   searchByKeyword(urlParams.get("keyword"), urlParams.get("version"), urlParams.get("exactmatch"));
 });
-/*
-function onMessageFromParent(event) {
-  var results = JSON.parse(event.message);
-  $("h1").text(results[0].text);
-}*/
 
-
+var results = [];
+var filtered = [];
 async function searchByKeyword(keyword, version, exactmatch) {
   try {
-    const results = await BibleGetService.searchKeyword(keyword, version, exactmatch);
+    results = await BibleGetService.searchKeyword(keyword, version, exactmatch);
+    filtered = results;
     showResults(results);
   } catch (e) {
     notifyError(`Hubo un problema al buscar por palabra clave en el servidor.`);
@@ -31,20 +27,18 @@ function notifyError(errorMessage) {
 }
 
 function closeWindow() {
-  Office.context.ui.messageParent(JSON.stringify({action: "close" }));
+  Office.context.ui.messageParent(JSON.stringify({ action: "close" }));
 }
 
-function showResults(results) {  
+const resultsPerPage = 10;
+
+function showResults() {
+  buildPagination(results.length);
   document.getElementById("lbResultsCount").innerHTML = results.length;
-  let list = document.getElementById("lstResults");
-  list.innerHTML = "";
-  for (let i in results) {
-    let entry = createResultItem(i, results[i]);
-    list.appendChild(entry);
-  }
+  showPage(0);
 }
 
-function createResultItem(i, quote) {
+function createResultItem(quote) {
   const a = document.createElement("a");
   a.classList.add("icon");
   a.classList.add("is-large");
@@ -61,36 +55,78 @@ function createResultItem(i, quote) {
 }
 
 const insertResult = q => {
-  Office.context.ui.messageParent(JSON.stringify({action: "ins", quote: q}));  
+  Office.context.ui.messageParent(JSON.stringify({ action: "ins", quote: q }));
 };
 
+function buildPagination(nbOfResults) {
+  let list = document.getElementById("lstPagination");
+  list.innerHTML = "";
+  let numPages = Math.ceil(nbOfResults / resultsPerPage);
+  for (let i = 1; i <= Math.min(3, numPages); i++) {
+    list.appendChild(buildPaginationItem(i));
+  }
+  if (numPages > 3) {
+    if (numPages > 4) {
+      list.appendChild(buildPaginationElipsisItem());
+    }
+    list.appendChild(buildPaginationItem(numPages));
+  }
+}
+
+function buildPaginationItem(i) {
+  const linkPage = document.createElement("a");
+  linkPage.classList.add("pagination-link");
+  linkPage.onclick = () => showPage(i - 1);
+  linkPage.innerHTML = i;
+  const attribute = document.createAttribute("aria-label");
+  attribute.value = `Página ${i}`;
+  linkPage.setAttributeNode(attribute);
+  const liPage = document.createElement("li");
+  liPage.appendChild(linkPage);
+  return liPage;
+}
+
+function buildPaginationElipsisItem() {
+  const elipsis = document.createElement("li");
+  elipsis.innerHTML = "<li><span class='pagination-ellipsis'>…</span></li>"; 
+  return elipsis;
+}
+
+function showPage(page, items = filtered) {
+  console.log(page);
+  let list = document.getElementById("lstResults");
+  list.innerHTML = "";
+  let limit = Math.min((page + 1) * resultsPerPage, items.length);
+  for (let i = page * resultsPerPage; i < limit; i++) {
+    let entry = createResultItem(items[i]);
+    list.appendChild(entry);
+  }
+}
 /***************************************************************************************************/
 export const filterSearchResults = () => {
-  const filter = document.getElementById("txtFilter").value.toLowerCase();
-  let count = 0;
-  let results = document.querySelectorAll("#lstResults tr");
+  const filter = document.getElementById("txtFilter").value.toLowerCase();  
 
-  for (let res of results) {
-    if (
-      res
-        .querySelector("td span.verse-text")
-        .innerHTML.toLowerCase()
-        .indexOf(filter) == -1
-    ) {
-      res.classList.add("hide");
-    } else {
-      res.classList.remove("hide");
-      count++;
+  if (filter == "") {
+    filtered = results;
+  } else {
+    filtered = [];
+    for (let res of results) {
+      if (res.text.toLowerCase().indexOf(filter) != -1) {
+        filtered.push(res);
+        console.log(res);
+      }
     }
   }
-  document.getElementById("lbResultsCount").innerHTML = count;
+  document.getElementById("lbResultsCount").innerHTML = filtered.length;
+  showPage(0, filtered);
+  buildPagination(filtered.length);
 };
 
 /***************************************************************************************************/
 const axios = require("axios");
 const BGET_SEARCH_ENDPOINT = "https://query.bibleget.io/v3/search.php?";
 
-export var BibleGetService = {  
+export var BibleGetService = {
   searchKeyword: async function(keyword, version = "CEI2008", exactmatch) {
     const payload = {
       query: "keywordsearch",
@@ -123,10 +159,10 @@ export var BibleGetService = {
         originalquery: "Gen1:27"
       }
     ];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 50; i++) {
       resultados.push({
         verse: "2",
-        text: "Lorem ipsum doloret sit",
+        text: "Lorem ipsum doloret sit"+i,
         version: "BLPD",
         originalquery: "Gen1:27"
       });

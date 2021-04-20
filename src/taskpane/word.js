@@ -30,7 +30,7 @@ export async function getByQuote() {
 
 export async function getByKeyword() {
   return Word.run(async context => {
-    await getByKeywordOffice(document, context);
+    await getByKeywordOffice();
     await context.sync();
   });
 }
@@ -101,7 +101,7 @@ async function searchByQuote(document, quote, version, preferOrigin) {
   }
 }
 
-export async function getByKeywordOffice(document, context) {
+export async function getByKeywordOffice() {
   const keyword = document.getElementById("txtKeyword").value;
   const exactmatch = document.getElementById("chkExactMatch").checked;
   const version = document.getElementById("cbVersion").value;
@@ -127,8 +127,8 @@ async function searchByKeyword(keyword, version, exactmatch) {
 }
 
 function processMessage(arg) {
-  var messageFromDialog = JSON.parse(arg.message);
-  console.log(messageFromDialog.action);
+  let messageFromDialog = JSON.parse(arg.message);
+
   if (messageFromDialog.action === "close") {
     dialog.close();
   } else if (messageFromDialog.action === "ins") {
@@ -144,7 +144,6 @@ export const insertResult = q => {
 };
 
 function insertQuote(document, quote) {
-  //context.document
   let range = document.getSelection();
   const verse = range.insertText(quote.verse + " ", "End");
   verse.font.superscript = true;
@@ -171,15 +170,6 @@ async function loadVersions() {
     console.error(e);
   }
 }
-/***************************************************
-export const backSearchResults = () => {
-  document.getElementById("searchResultsSection").style.display = "none";
-  let lstResults = document.getElementById("lstResults");
-  while (lstResults.firstChild) {
-    lstResults.removeChild(lstResults.firstChild);
-  }
-  document.getElementById("appSection").style.display = "flex";
-};
 /***************************************************/
 export const showSettings = () => {
   Office.context.ui.displayDialogAsync("https://localhost:3000/settings.html", { height: 70, width: 50 });
@@ -191,12 +181,11 @@ export const showAbout = () => {
   Office.context.ui.displayDialogAsync("https://localhost:3000/about.html", { height: 70, width: 50 });
 };
 /***************************************************/
+//Bible Verse Regex
+  //const regex = /\d*[a-z]+\d+(?::(\d+))?(-(\d+)(?:([a-z]+)(\d+))?(?::(\d+))?)?/i;
 const regex = /^\d*[a-z]+\d+(([,:]\d+)?(-\d+)?)?$/i;
 
-export const isValidQuote = value => {
-  //Bible Verse Regex
-  //const regex = /[a-z]+\d+,\d+(-\d+)?/i;
-  //const regex = /\d*[a-z]+\d+(?::(\d+))?(-(\d+)(?:([a-z]+)(\d+))?(?::(\d+))?)?/i;
+export const isValidQuote = value => {  
   return regex.test(value.replaceAll(" ", ""));
 };
 export const validateQuote = () => {

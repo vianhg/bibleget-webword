@@ -30,39 +30,26 @@
               </span>
             </div>
           </div>
-          <div class="notification is-light pb-1 pt-1"><i id="lbResultsCount">X</i> resultados encontrados</div>
-          <div id="lbErrMsg" class="help is-danger"></div>
-          <!--<div class="block">
+          <div class="notification is-light pb-1 pt-1 mb-1"><i id="lbResultsCount">X</i> resultados encontrados</div>
+          <div id="lbErrMsg" class="help is-danger"></div>          
+          <table id="lstResults" class="table is-fullwidth">
+            <!--results-->
+          </table>
+          <div class="block">
             <div class="columns is-centered">
-              <div class="column is-10">
-                <nav class="pagination is-rounded" role="navigation" aria-label="pagination">                  
-                  <ul class="pagination-list">
-                    <li>
-                      <a class="pagination-link" aria-label="Goto page 1">1</a>
-                    </li>
-                    <li>
-                      <a class="pagination-link" aria-label="Goto page 2">2</a>
-                    </li>
-                    <li>
-                      <a class="pagination-link" aria-label="Goto page 3">3</a>
-                    </li>
+              <div class="column is-10 has-text-centered">
+                <nav class="pagination is-rounded is-centered" role="navigation" aria-label="pagination">                  
+                  <ul class="pagination-list" id="lstPagination">                    
                     <li>
                       <span class="pagination-ellipsis">
                         …
                       </span>
-                    </li>
-                    <li>
-                      <a class="pagination-link" aria-label="Goto page 30">30</a>
-                    </li>
+                    </li>                    
                   </ul>
                 </nav>
               </div>
             </div>
-          </div>-->
-          <table id="lstResults" class="table">
-            <!--results-->
-          </table>
-          
+          </div>
           <div class="block">
             <div class="field has-text-centered">
               <div class="control">
