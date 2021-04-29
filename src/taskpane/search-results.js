@@ -59,41 +59,31 @@ const insertResult = q => {
 };
 
 function buildPagination(nbOfResults) {
-  let list = document.getElementById("lstPagination");
+  const numPages = Math.ceil(nbOfResults / resultsPerPage);
+
+  let lbPageCount = document.getElementById("lbPageCount");
+  lbPageCount.innerHTML = numPages;
+
+  let list = document.getElementById("cbPagination");
   list.innerHTML = "";
-  let numPages = Math.ceil(nbOfResults / resultsPerPage);
-  for (let i = 1; i <= Math.min(3, numPages); i++) {
+
+  for (let i = 1; i <= numPages; i++) {
     list.appendChild(buildPaginationItem(i));
-  }
-  if (numPages > 3) {
-    if (numPages > 4) {
-      list.appendChild(buildPaginationElipsisItem());
-    }
-    list.appendChild(buildPaginationItem(numPages));
   }
 }
 
 function buildPaginationItem(i) {
   const linkPage = document.createElement("a");
-  linkPage.classList.add("pagination-link");
+  linkPage.classList.add("dropdown-item");
   linkPage.onclick = () => showPage(i - 1);
   linkPage.innerHTML = i;
-  const attribute = document.createAttribute("aria-label");
-  attribute.value = `Página ${i}`;
+  const attribute = document.createAttribute("id");
+  attribute.value = `page${i}`;
   linkPage.setAttributeNode(attribute);
-  const liPage = document.createElement("li");
-  liPage.appendChild(linkPage);
-  return liPage;
+  return linkPage;
 }
 
-function buildPaginationElipsisItem() {
-  const elipsis = document.createElement("li");
-  elipsis.innerHTML = "<li><span class='pagination-ellipsis'>…</span></li>"; 
-  return elipsis;
-}
-
-function showPage(page, items = filtered) {
-  console.log(page);
+function showPage(page, items = filtered) {  
   let list = document.getElementById("lstResults");
   list.innerHTML = "";
   let limit = Math.min((page + 1) * resultsPerPage, items.length);
@@ -101,10 +91,35 @@ function showPage(page, items = filtered) {
     let entry = createResultItem(items[i]);
     list.appendChild(entry);
   }
+
+  let liPages = document.querySelectorAll("#cbPagination a");
+  for (let diPage of liPages) {
+    diPage.classList.remove("is-active");
+  }
+
+  let diActivePage = document.getElementById(`page${page+1}`);
+  diActivePage.classList.add("is-active");
+
+  const numPages = Math.ceil(items.length / resultsPerPage);
+  let btPrevPage = document.getElementById("btPrevPage");
+  let btNextPage = document.getElementById("btNextPage");
+  if (page > 0) {
+    btPrevPage.onclick = () => showPage(page - 1);
+    btPrevPage.disabled = false;
+  } else {
+    btPrevPage.disabled = true;
+  }
+
+  if (page < numPages-1) {
+    btNextPage.onclick = () => showPage(page + 1);
+    btNextPage.disabled = false;
+  } else {
+    btNextPage.disabled = true;
+  }
 }
 /***************************************************************************************************/
 export const filterSearchResults = () => {
-  const filter = document.getElementById("txtFilter").value.toLowerCase();  
+  const filter = document.getElementById("txtFilter").value.toLowerCase();
 
   if (filter == "") {
     filtered = results;
@@ -137,9 +152,9 @@ export var BibleGetService = {
       pluginversion: 1,
       exactmatch: exactmatch
     };
-    //const response = await axios.get(BGET_SEARCH_ENDPOINT, { params: payload });
-    //return response.data.results;
-    let resultados = [
+    const response = await axios.get(BGET_SEARCH_ENDPOINT, { params: payload });
+    return response.data.results;
+    /*let resultados = [
       {
         verse: "27",
         text: "Y Dios creó al hombre a su imagen; lo creó a imagen de Dios, los creó varón y mujer.",
@@ -162,11 +177,11 @@ export var BibleGetService = {
     for (let i = 0; i < 50; i++) {
       resultados.push({
         verse: "2",
-        text: "Lorem ipsum doloret sit"+i,
+        text: "Lorem ipsum doloret sit" + i,
         version: "BLPD",
         originalquery: "Gen1:27"
       });
     }
-    return resultados;
+    return resultados;*/
   }
 };

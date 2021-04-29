@@ -8,7 +8,7 @@
 
     <!-- Office JavaScript API -->
     <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
-    
+
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 
     <link rel="stylesheet" href="../../assets/css/bulma.min.css" />
@@ -19,47 +19,78 @@
   <body>
     <!--<h1 >aa</h1>-->
     <div class="has-text-centered"><img src="../../assets/icon-64.png" alt="" /></div>
-    
-      <section id="searchResultsSection" class="section" style="padding-top: 0">
-        <div>
-          <div class="field">
-            <div class="control has-icons-right is-expanded">
-              <input class="input" type="text" placeholder="Filtrar" value="" id="txtFilter" />
-              <span class="icon is-small is-right">
-                <i class="fas fa-search"></i>
-              </span>
-            </div>
+
+    <section id="searchResultsSection" class="section" style="padding-top: 0">
+      <div>
+        <div class="field">
+          <div class="control has-icons-right is-expanded">
+            <input class="input" type="text" placeholder="Filtrar" value="" id="txtFilter" />
+            <span class="icon is-small is-right">
+              <i class="fas fa-search"></i>
+            </span>
           </div>
-          <div class="notification is-light pb-1 pt-1 mb-1"><i id="lbResultsCount">X</i> resultados encontrados</div>
-          <div id="lbErrMsg" class="help is-danger"></div>          
-          <table id="lstResults" class="table is-fullwidth">
-            <!--results-->
-          </table>
-          <div class="block">
-            <div class="columns is-centered">
-              <div class="column is-10 has-text-centered">
-                <nav class="pagination is-rounded is-centered" role="navigation" aria-label="pagination">                  
-                  <ul class="pagination-list" id="lstPagination">                    
-                    <li>
-                      <span class="pagination-ellipsis">
-                        …
-                      </span>
-                    </li>                    
-                  </ul>
-                </nav>
+        </div>
+
+        <div class="block pb-1 pt-1 mb-1">
+          <div class="columns is-vcentered">
+            <div class="column">
+              <span><i id="lbResultsCount">X</i> resultados encontrados</span>
+            </div>
+            <div class="column is-1">
+              <button id="btPrevPage" class="button is-rounded" title="Previous page">
+                <i class="fa fa-chevron-left  fa-lg" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="column is-3 has-text-centered">
+              <div class="dropdown is-hoverable">
+                <div class="dropdown-trigger">
+                  <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <span>Go to page - de <i id="lbPageCount">X</i></span>
+                    <span class="icon is-small">
+                      <i class="fas fa-angle-down" aria-hidden="true"></i> </span>
+                  </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                  <div class="dropdown-content" id="cbPagination">
+                    <a href="#" class="dropdown-item">
+                      1
+                    </a>
+                    <a class="dropdown-item">
+                      2
+                    </a>
+                    <a href="#" class="dropdown-item is-active">
+                      3
+                    </a>
+                    <a href="#" class="dropdown-item">
+                      4
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="block">
-            <div class="field has-text-centered">
-              <div class="control">
-                <button class="button is-primary" id="btDone">
-                  Cerrar
-                </button>
-              </div>
+            <div class="column is-1">
+              <button id="btNextPage" class="button is-rounded" title="Next page">
+                <i class="fa fa-chevron-right fa-lg" aria-hidden="true"></i>
+              </button>
             </div>
+          </div>
         </div>
+
+        <div id="lbErrMsg" class="help is-danger"></div>
+        <table id="lstResults" class="table is-fullwidth">
+          <!--results-->
+        </table>
+
+        <div class="block">
+          <div class="field has-text-centered">
+            <div class="control">
+              <button class="button is-primary" id="btDone">
+                Cerrar
+              </button>
+            </div>
+          </div>
         </div>
-      </section>
+      </div>
+    </section>
   </body>
 </html>

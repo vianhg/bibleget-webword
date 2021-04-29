@@ -168,5 +168,5 @@ function fillAbbrev() {
 }
 
 function createBookEntry(abbr, book) {
-  return `<div class="column">${abbr}</div><div class="column">${book}</div>`;
+  return `<tr><td>${abbr}</td><td>${book}</td></tr>`;
 }

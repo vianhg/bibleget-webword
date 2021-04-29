@@ -16,85 +16,281 @@
   </head>
 
   <body>
-    <!--<h3 class="title has-text-centered"><i class="fa fa-camera-retro is-large"></i></h3>-->
     <div class="has-text-centered"><img src="../../assets/icon-64.png" alt="" /></div>
-    <section id="sideload-msg" class="notification is-danger">
-      <h2 class="ms-font-xl">Please sideload your add-in to see app body.</h2>
-    </section>
-    <main id="app-body" style="display: flex;">
-      <!--none-->
-      <!--<div class="tabs">
-        <ul>
-          <li class="is-active"><a>Formato del texto</a></li>
-          <li><a>Disposición preferida</a></li>
-          <li><a>Versiones e Idiomas compatibles</a></li>
-        </ul>
-      </div>-->
-      <section>
-        <div class="card">
-          <header class="card-header">
-            <p class="card-header-title">
-              Estilo de párrafo
-            </p>
-            <button class="card-header-icon" aria-label="more options">
-              <span class="icon">
-                <i class="fa fa-angle-down" aria-hidden="true"></i>
-              </span>
-            </button>
-          </header>
-          <div class="card-content">
-            <div class="content">
-              <form>
-                <div class="field is-grouped-multiline is-horizontal">
-                  <div class="select is-rounded is-fullwidth">
-                    <select>
-                      <option>Arial</option>
-                    </select>
+    <section class="container is-fluid">
+      <h2 class="title">Formato del texto</h2>
+      <div class="message is-dark">
+        <div class="message-body">
+          <div class="content">
+            <h4 class="title">
+              Estilos de párrafo
+            </h4>
+            <form>
+              <div class="field is-grouped-multiline is-horizontal">
+                <div class="select is-rounded is-fullwidth">
+                  <select>
+                    <option>Arial</option>
+                  </select>
+                </div>
+                <p class="control">
+                  <button id="btLeftOutdent" class="button is-white"><i class="fa fa-outdent"></i></button>
+                </p>
+                <p class="control">
+                  <button id="btLeftIndent" class="button is-white"><i class="fa fa-indent"></i></button>
+                </p>
+                <div class="control">
+                  <button class="button is-white"><i class="fa fa-align-left"></i></button>
+                </div>
+                <div class="control">
+                  <button class="button is-white"><i class="fa fa-align-center"></i></button>
+                </div>
+                <div class="control">
+                  <button class="button is-white"><i class="fa fa-align-right"></i></button>
+                </div>
+                <div class="control">
+                  <button class="button is-white"><i class="fa fa-align-justify"></i></button>
+                </div>
+                <div class="dropdown is-hoverable">
+                  <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                      <i class="fas fa-arrows-alt-v"></i>
+                    </button>
                   </div>
-                  <p class="control">
-                    <button id="btLeftIndent" class="button is-white"><i class="fa fa-outdent"></i></button>
-                  </p>
-                  <p class="control">
-                    <button class="button is-white"><i class="fa fa-indent"></i></button>
-                  </p>
-                  <div class="control">
-                    <button class="button is-white"><i class="fa fa-align-left"></i></button>
-                  </div>
-                  <div class="control">
-                    <button class="button is-white"><i class="fa fa-align-center"></i></button>
-                  </div>
-                  <div class="control">
-                    <button class="button is-white"><i class="fa fa-align-right"></i></button>
-                  </div>
-                  <div class="control">
-                    <button class="button is-white"><i class="fa fa-align-justify"></i></button>
-                  </div>
-                  <div class="dropdown is-active">
-                    <div class="dropdown-trigger">
-                      <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                        <i class="fas fa-arrows-alt-v"></i>
-                      </button>
-                    </div>
-                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                      <div class="dropdown-content">
-                        <a href="#" class="dropdown-item">
-                          1.0
-                        </a>
-                        <a class="dropdown-item">
-                          1.5
-                        </a>
-                        <a href="#" class="dropdown-item is-active">
-                          2.0
-                        </a>                        
-                      </div>
+                  <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                      <a href="#" class="dropdown-item">
+                        1.0
+                      </a>
+                      <a class="dropdown-item">
+                        1.5
+                      </a>
+                      <a href="#" class="dropdown-item is-active">
+                        2.0
+                      </a>
                     </div>
                   </div>
                 </div>
-              </form>
-            </div>
+                <!-- end dropdown-->
+                <p class="control">
+                  <button id="btRightOutdent" class="button is-white"><i class="fa fa-outdent"></i></button>
+                </p>
+                <p class="control">
+                  <button id="btRightIndent" class="button is-white"><i class="fa fa-indent"></i></button>
+                </p>
+              </div>
+            </form>
           </div>
         </div>
+        <!-- end card content-->
+      </div>
+
+      <!--2. Formato libro capítulo-->
+      <div class="message is-dark">
+        <div class="message-body">
+          <div class="content">
+            <h4 class="title">
+              Formato Libro / Capítulo
+            </h4>
+            <form>
+              <div class="field is-grouped-multiline is-horizontal">
+                <p class="control">
+                  <button class="button is-white"><i class="fa fa-bold"></i></button>
+                </p>
+                <p class="control">
+                  <button class="button is-white"><i class="fa fa-italic"></i></button>
+                </p>
+                <div class="control">
+                  <button class="button is-white"><i class="fa fa-underline"></i></button>
+                </div>
+                <div class="control">
+                  <button class="button is-white"><i class="fa fa-subscript"></i></button>
+                </div>
+                <div class="control">
+                  <button class="button is-white"><i class="fa fa-superscript"></i></button>
+                </div>                
+                <div class="dropdown is-hoverable">
+                  <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                      <i class="fas fa-text-height"></i>
+                    </button>
+                  </div>
+                  <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                      <a href="#" class="dropdown-item">
+                        1.0
+                      </a>
+                      <a class="dropdown-item">
+                        1.5
+                      </a>
+                      <a href="#" class="dropdown-item is-active">
+                        2.0
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <!-- end dropdown-->
+                <p class="control">
+                  <button class="button is-danger is-inverted"><i class="fa fa-font"></i></button>
+                </p>
+                <p class="control">
+                  <button class="button is-warning"><i class="fa fa-font"></i></button>
+                </p>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- end card content-->
+      </div>
+
+      <!-- Formato número de versículo-->
+      <div class="message is-dark">
+        <div class="message-body">
+          <div class="content">
+            <h4 class="title">
+              Formato Libro / Capítulo
+            </h4>
+            <form>
+              <div class="field is-grouped-multiline is-horizontal">
+                <p class="control">
+                  <button class="button is-white"><i class="fa fa-bold"></i></button>
+                </p>
+                <p class="control">
+                  <button class="button is-white"><i class="fa fa-italic"></i></button>
+                </p>
+                <div class="control">
+                  <button class="button is-white"><i class="fa fa-underline"></i></button>
+                </div>
+                <div class="control">
+                  <button class="button is-white"><i class="fa fa-subscript"></i></button>
+                </div>
+                <div class="control">
+                  <button class="button is-white"><i class="fa fa-superscript"></i></button>
+                </div>                
+                <div class="dropdown is-hoverable">
+                  <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                      <i class="fas fa-text-height"></i>
+                    </button>
+                  </div>
+                  <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                      <a href="#" class="dropdown-item">
+                        1.0
+                      </a>
+                      <a class="dropdown-item">
+                        1.5
+                      </a>
+                      <a href="#" class="dropdown-item is-active">
+                        2.0
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <!-- end dropdown-->
+                <p class="control">
+                  <button class="button is-danger is-inverted"><i class="fa fa-font"></i></button>
+                </p>
+                <p class="control">
+                  <button class="button is-warning"><i class="fa fa-font"></i></button>
+                </p>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- end card content-->
+      </div>
+
+      <!--Formato texto del versículo -->
+      <div class="message is-dark">
+        <div class="message-body">
+          <div class="content">
+            <h4 class="title">
+              Formato texto del versículo
+            </h4>
+            <form>
+              <div class="field is-grouped-multiline is-horizontal">
+                <p class="control">
+                  <button class="button is-white"><i class="fa fa-bold"></i></button>
+                </p>
+                <p class="control">
+                  <button class="button is-white"><i class="fa fa-italic"></i></button>
+                </p>
+                <div class="control">
+                  <button class="button is-white"><i class="fa fa-underline"></i></button>
+                </div>
+                <div class="control">
+                  <button class="button is-white"><i class="fa fa-subscript"></i></button>
+                </div>
+                <div class="control">
+                  <button class="button is-white"><i class="fa fa-superscript"></i></button>
+                </div>                
+                <div class="dropdown is-hoverable">
+                  <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                      <i class="fas fa-text-height"></i>
+                    </button>
+                  </div>
+                  <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                      <a href="#" class="dropdown-item">
+                        1.0
+                      </a>
+                      <a class="dropdown-item">
+                        1.5
+                      </a>
+                      <a href="#" class="dropdown-item is-active">
+                        2.0
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <!-- end dropdown-->
+                <p class="control">
+                  <button class="button is-danger is-inverted"><i class="fa fa-font"></i></button>
+                </p>
+                <p class="control">
+                  <button class="button is-warning"><i class="fa fa-font"></i></button>
+                </p>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- end card content-->
+      </div>
+    </section>
+    <!-- Sección versiones e idiomas compatibles -->
+    <div class="content">
+      <hr/>
+      <section class="container is-fluid">
+        <h2 class="title">Versiones e idiomas compatibles</h2>
+        <p>
+          Los nombres de los libros de la Biblia son reconocidos actualmente en <span>25</span> idiomas diferentes.
+          Actualmente los idiomas soportados son:
+        </p>
+        <p>Inglés, Latín, Español.</p>
+        <p><span>4</span> versiones de la Biblia están soportadas actualmente:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Abreviatura</th>
+              <th>Título</th>
+              <th>Año</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2</td>
+              <td>2</td>
+              <td>2000</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="has-text-centered">
+        <button id="btUpdateVersions" class="button">
+          <i class="fa fa-download" aria-hidden="true"> </i> <span class="pl-2">Actualizar desde el servidor.</span>
+        </button>
+      </div>
       </section>
-    </main>
+    </div>
   </body>
 </html>
