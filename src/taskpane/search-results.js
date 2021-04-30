@@ -128,7 +128,6 @@ export const filterSearchResults = () => {
     for (let res of results) {
       if (res.text.toLowerCase().indexOf(filter) != -1) {
         filtered.push(res);
-        console.log(res);
       }
     }
   }

@@ -1,17 +1,12 @@
-.verse-text {
-    color: inherit;
-  }
-  
-  .verse-quote {
-     font-size: small;
-     color: #09aa09;
-  }
- 
- #lstResults tr.hide {
-   display: none;
- }
- 
- #lstResults tr td {   
-    padding: 0;
-    vertical-align: middle;
- }
+p.control {
+   margin-bottom: 0 !important;
+}
+h4.title {
+   margin-bottom: 0 !important;
+}
+form {
+   padding-top: 1rem;
+}
+.message-body {
+   padding-top: 1rem;
+}

@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="../../assets/css/bulma.min.css" />
     <link rel="stylesheet" href="../../assets/font-awesome-4.7.0/css/font-awesome.min.css" />
-    <link href="taskpane.css" rel="stylesheet" type="text/css" />
+    <link href="settings.css" rel="stylesheet" type="text/css" />
   </head>
 
   <body>
@@ -24,11 +24,16 @@
           <div class="content">
             <h4 class="title">
               Estilos de párrafo
+              <button id="btCollapsePar" class="button is-white is-small is-pulled-right" aria-label="more options">
+                <span class="icon">
+                  <i class="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+              </button>
             </h4>
-            <form>
+            <form id="formPar">
               <div class="field is-grouped-multiline is-horizontal">
                 <div class="select is-rounded is-fullwidth">
-                  <select>
+                  <select id="cbFontFamily">
                     <option>Arial</option>
                   </select>
                 </div>
@@ -39,16 +44,16 @@
                   <button id="btLeftIndent" class="button is-white"><i class="fa fa-indent"></i></button>
                 </p>
                 <div class="control">
-                  <button class="button is-white"><i class="fa fa-align-left"></i></button>
+                  <button id="btAlignLeft" class="button is-white"><i class="fa fa-align-left"></i></button>
                 </div>
                 <div class="control">
-                  <button class="button is-white"><i class="fa fa-align-center"></i></button>
+                  <button id="btAlignCenter" class="button is-white"><i class="fa fa-align-center"></i></button>
                 </div>
                 <div class="control">
-                  <button class="button is-white"><i class="fa fa-align-right"></i></button>
+                  <button id="btAlignRight" class="button is-white"><i class="fa fa-align-right"></i></button>
                 </div>
                 <div class="control">
-                  <button class="button is-white"><i class="fa fa-align-justify"></i></button>
+                  <button id="btAlignJustify" class="button is-white"><i class="fa fa-align-justify"></i></button>
                 </div>
                 <div class="dropdown is-hoverable">
                   <div class="dropdown-trigger">
@@ -58,13 +63,13 @@
                   </div>
                   <div class="dropdown-menu" id="dropdown-menu" role="menu">
                     <div class="dropdown-content">
-                      <a href="#" class="dropdown-item">
+                      <a id="btInter1" href="#" class="dropdown-item">
                         1.0
                       </a>
-                      <a class="dropdown-item">
+                      <a id="btInter15" class="dropdown-item">
                         1.5
                       </a>
-                      <a href="#" class="dropdown-item is-active">
+                      <a id="btInter2" href="#" class="dropdown-item is-active">
                         2.0
                       </a>
                     </div>
@@ -90,24 +95,34 @@
           <div class="content">
             <h4 class="title">
               Formato Libro / Capítulo
+              <button id="btCollapseBook" class="button is-white is-small is-pulled-right" aria-label="more options">
+                <span class="icon">
+                  <i class="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+              </button>
             </h4>
-            <form>
+            <form id="formBook" class="is-hidden">
               <div class="field is-grouped-multiline is-horizontal">
                 <p class="control">
-                  <button class="button is-white"><i class="fa fa-bold"></i></button>
+                  <button id="btBookBold" class="button is-white"><i class="fa fa-bold"></i></button>
                 </p>
                 <p class="control">
-                  <button class="button is-white"><i class="fa fa-italic"></i></button>
+                  <button id="btBookItalic" class="button is-white"><i class="fa fa-italic"></i></button>
                 </p>
                 <div class="control">
-                  <button class="button is-white"><i class="fa fa-underline"></i></button>
+                  <button id="btBookUnder" class="button is-white"><i class="fa fa-underline"></i></button>
                 </div>
                 <div class="control">
-                  <button class="button is-white"><i class="fa fa-subscript"></i></button>
+                  <button id="btBookSub" class="button is-white"><i class="fa fa-subscript"></i></button>
                 </div>
                 <div class="control">
-                  <button class="button is-white"><i class="fa fa-superscript"></i></button>
-                </div>                
+                  <button id="btBookSuper" class="button is-white"><i class="fa fa-superscript"></i></button>
+                </div>
+                <div class="select is-rounded">
+                  <select id="cbBookFontSize">
+                    <option>10</option>
+                  </select>
+                </div>
                 <div class="dropdown is-hoverable">
                   <div class="dropdown-trigger">
                     <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
@@ -116,13 +131,13 @@
                   </div>
                   <div class="dropdown-menu" id="dropdown-menu" role="menu">
                     <div class="dropdown-content">
-                      <a href="#" class="dropdown-item">
+                      <a id="btBook1" class="dropdown-item">
                         1.0
                       </a>
-                      <a class="dropdown-item">
+                      <a id="btBook15" class="dropdown-item">
                         1.5
                       </a>
-                      <a href="#" class="dropdown-item is-active">
+                      <a id="btBook2" class="dropdown-item is-active">
                         2.0
                       </a>
                     </div>
@@ -130,10 +145,10 @@
                 </div>
                 <!-- end dropdown-->
                 <p class="control">
-                  <button class="button is-danger is-inverted"><i class="fa fa-font"></i></button>
+                  <button id="btBookColor" class="button is-danger is-inverted"><i class="fa fa-font"></i></button>
                 </p>
                 <p class="control">
-                  <button class="button is-warning"><i class="fa fa-font"></i></button>
+                  <button id="btBookBack" class="button is-warning"><i class="fa fa-font"></i></button>
                 </p>
               </div>
             </form>
@@ -147,25 +162,30 @@
         <div class="message-body">
           <div class="content">
             <h4 class="title">
-              Formato Libro / Capítulo
+              Formato número de versículo
+              <button id="btCollapseNum" class="button is-white is-small is-pulled-right" aria-label="more options">
+                <span class="icon">
+                  <i class="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+              </button>
             </h4>
-            <form>
+            <form id="formNum" class="is-hidden">
               <div class="field is-grouped-multiline is-horizontal">
                 <p class="control">
-                  <button class="button is-white"><i class="fa fa-bold"></i></button>
+                  <button id="btNumBold" class="button is-white"><i class="fa fa-bold"></i></button>
                 </p>
                 <p class="control">
-                  <button class="button is-white"><i class="fa fa-italic"></i></button>
+                  <button id="btNumItalic" class="button is-white"><i class="fa fa-italic"></i></button>
                 </p>
                 <div class="control">
-                  <button class="button is-white"><i class="fa fa-underline"></i></button>
+                  <button id="btNumUnder" class="button is-white"><i class="fa fa-underline"></i></button>
                 </div>
                 <div class="control">
-                  <button class="button is-white"><i class="fa fa-subscript"></i></button>
+                  <button id="btNumSub" class="button is-white"><i class="fa fa-subscript"></i></button>
                 </div>
                 <div class="control">
-                  <button class="button is-white"><i class="fa fa-superscript"></i></button>
-                </div>                
+                  <button id="btNumSuper" class="button is-white"><i class="fa fa-superscript"></i></button>
+                </div>
                 <div class="dropdown is-hoverable">
                   <div class="dropdown-trigger">
                     <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
@@ -174,13 +194,13 @@
                   </div>
                   <div class="dropdown-menu" id="dropdown-menu" role="menu">
                     <div class="dropdown-content">
-                      <a href="#" class="dropdown-item">
+                      <a id="btNum1" class="dropdown-item">
                         1.0
                       </a>
-                      <a class="dropdown-item">
+                      <a id="btNum15" class="dropdown-item">
                         1.5
                       </a>
-                      <a href="#" class="dropdown-item is-active">
+                      <a id="btNum2" class="dropdown-item is-active">
                         2.0
                       </a>
                     </div>
@@ -188,10 +208,10 @@
                 </div>
                 <!-- end dropdown-->
                 <p class="control">
-                  <button class="button is-danger is-inverted"><i class="fa fa-font"></i></button>
+                  <button id="btNumColor" class="button is-danger is-inverted"><i class="fa fa-font"></i></button>
                 </p>
                 <p class="control">
-                  <button class="button is-warning"><i class="fa fa-font"></i></button>
+                  <button id="btNumBack" class="button is-warning"><i class="fa fa-font"></i></button>
                 </p>
               </div>
             </form>
@@ -206,24 +226,29 @@
           <div class="content">
             <h4 class="title">
               Formato texto del versículo
+              <button id="btCollapseText" class="button is-white is-small is-pulled-right" aria-label="more options">
+                <span class="icon">
+                  <i class="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+              </button>
             </h4>
-            <form>
+            <form id="formText" class="is-hidden">
               <div class="field is-grouped-multiline is-horizontal">
                 <p class="control">
-                  <button class="button is-white"><i class="fa fa-bold"></i></button>
+                  <button id="btTextBold" class="button is-white"><i class="fa fa-bold"></i></button>
                 </p>
                 <p class="control">
-                  <button class="button is-white"><i class="fa fa-italic"></i></button>
+                  <button id="btTextItalic" class="button is-white"><i class="fa fa-italic"></i></button>
                 </p>
                 <div class="control">
-                  <button class="button is-white"><i class="fa fa-underline"></i></button>
+                  <button id="btTextUnder" class="button is-white"><i class="fa fa-underline"></i></button>
                 </div>
                 <div class="control">
-                  <button class="button is-white"><i class="fa fa-subscript"></i></button>
+                  <button id="btTextSub" class="button is-white"><i class="fa fa-subscript"></i></button>
                 </div>
                 <div class="control">
-                  <button class="button is-white"><i class="fa fa-superscript"></i></button>
-                </div>                
+                  <button id="btTextSuper" class="button is-white"><i class="fa fa-superscript"></i></button>
+                </div>
                 <div class="dropdown is-hoverable">
                   <div class="dropdown-trigger">
                     <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
@@ -232,13 +257,13 @@
                   </div>
                   <div class="dropdown-menu" id="dropdown-menu" role="menu">
                     <div class="dropdown-content">
-                      <a href="#" class="dropdown-item">
+                      <a id="btText1" class="dropdown-item">
                         1.0
                       </a>
-                      <a class="dropdown-item">
+                      <a id="btText15" class="dropdown-item">
                         1.5
                       </a>
-                      <a href="#" class="dropdown-item is-active">
+                      <a id="btText2" class="dropdown-item is-active">
                         2.0
                       </a>
                     </div>
@@ -246,10 +271,10 @@
                 </div>
                 <!-- end dropdown-->
                 <p class="control">
-                  <button class="button is-danger is-inverted"><i class="fa fa-font"></i></button>
+                  <button id="btTextColor" class="button is-danger is-inverted"><i class="fa fa-font"></i></button>
                 </p>
                 <p class="control">
-                  <button class="button is-warning"><i class="fa fa-font"></i></button>
+                  <button id="btTextBack" class="button is-warning"><i class="fa fa-font"></i></button>
                 </p>
               </div>
             </form>
@@ -258,9 +283,22 @@
         <!-- end card content-->
       </div>
     </section>
-    <!-- Sección versiones e idiomas compatibles -->
+
+    <!-- Vista previa -->
     <div class="content">
       <hr/>
+      <section class="container is-fluid">
+        <h2 class="title">Vista previa</h2>
+        <div class="box">
+          <div id="book">Génesis 1</div>
+          <p><span id="verse">1</span> <span id="text">In principio creavit Deus cælum et terram.</span></p>
+        </div>
+      </section>
+    </div>
+
+    <!-- Sección versiones e idiomas compatibles -->
+    <div class="content">
+      <hr />
       <section class="container is-fluid">
         <h2 class="title">Versiones e idiomas compatibles</h2>
         <p>
@@ -277,7 +315,7 @@
               <th>Año</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="tbVersions">
             <tr>
               <td>2</td>
               <td>2</td>
@@ -286,10 +324,10 @@
           </tbody>
         </table>
         <div class="has-text-centered">
-        <button id="btUpdateVersions" class="button">
-          <i class="fa fa-download" aria-hidden="true"> </i> <span class="pl-2">Actualizar desde el servidor.</span>
-        </button>
-      </div>
+          <button id="btUpdateVersions" class="button">
+            <i class="fa fa-download" aria-hidden="true"> </i> <span class="pl-2">Actualizar desde el servidor.</span>
+          </button>
+        </div>
       </section>
     </div>
   </body>
