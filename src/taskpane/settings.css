@@ -1,12 +1,31 @@
 p.control {
-   margin-bottom: 0 !important;
+  margin-bottom: 0 !important;
 }
 h4.title {
-   margin-bottom: 0 !important;
+  margin-bottom: 0 !important;
 }
 form {
-   padding-top: 1rem;
+  padding-top: 1rem;
 }
 .message-body {
-   padding-top: 1rem;
+  padding-top: 1rem;
+}
+
+label.checkbox input {
+  display: none;
+}
+label.checkbox input:checked + span {
+  border-top: solid 1px #bbbbbb;
+  border-left: solid 1px #bbbbbb;
+  border-right: solid 1px white;
+  border-bottom: solid 1px white;
+  background-color: #dadada;  
+}
+#prevParagraph .rule {
+  height: 10px;
+  width: 100%;
+}
+#prevParagraph .rule .measures {
+  position: relative;
+  border-top: 1px solid #0a0a0a;
 }

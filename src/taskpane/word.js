@@ -4,10 +4,39 @@
  */
 
 // images references in the manifest
-
+var settings = {
+  par: { align: "left", interline: 1, leftIndent: 0, rightIndent: 0, fontFamily: "Arial" },
+  book: {
+    fontSize: 10,
+    bold: false,
+    color: "black",
+    italic: false,
+    subscript: false,
+    superscript: false,
+    underline: false
+  },
+  verse: {
+    fontSize: 10,
+    bold: false,
+    color: "black",
+    italic: false,
+    subscript: false,
+    superscript: false,
+    underline: false
+  },
+  text: {
+    fontSize: 10,
+    bold: false,
+    color: "black",
+    italic: false,
+    subscript: false,
+    superscript: false,
+    underline: false
+  }
+};
 /* global document, Office, Word */
 
-Office.onReady(info => {
+Office.onReady(async function(info) {
   if (info.host === Office.HostType.Word) {
     document.getElementById("sideload-msg").style.display = "none";
     document.getElementById("app-body").style.display = "flex";
@@ -17,9 +46,18 @@ Office.onReady(info => {
     document.getElementById("btSettings").onclick = showSettings;
     document.getElementById("btHelp").onclick = showHelp;
     document.getElementById("btAbout").onclick = showAbout;
+    getStyleSettings();
+    await loadVersions();
     setPreferedVersionByLang();
   }
 });
+
+function getStyleSettings() {
+  const str = localStorage.getItem("bible.settings");
+  if (str != null) {
+    settings = JSON.parse(str);
+  }
+}
 
 export async function getByQuote() {
   return Word.run(async context => {
@@ -87,12 +125,12 @@ async function searchByQuote(document, quote, version, preferOrigin) {
     for (let i in verses) {
       const verse = range.insertText(verses[i].verse + " ", "End");
       verse.font.superscript = true;
-      const text = range.insertText(verses[i].text, "End");
+      const text = range.insertText(verses[i].text, "End");      
       text.font.set({
-        name: "Arial",
-        bold: false,
-        size: 18,
-        superscript: false
+        name: settings.par.fontFamily,
+        bold: settings.text.bold,
+        size: settings.text.fontSize,
+        superscript: settings.text.superscript
       });
     }
   } catch (e) {
@@ -154,7 +192,13 @@ function insertQuote(document, quote) {
 /**************************************** */
 async function loadVersions() {
   try {
-    const versions = await BibleGetService.getVersions();
+    let versions;
+    let json = localStorage.getItem("bible.versions");
+    if (json != null) {
+      versions = JSON.parse(json);
+    } else {
+      versions = await BibleGetService.getVersions();
+    }
     let cbVersions = document.getElementById("cbVersion");
     let options = document.querySelectorAll("#cbVersion option");
     options.forEach(o => o.remove());

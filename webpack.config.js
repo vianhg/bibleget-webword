@@ -18,6 +18,7 @@ module.exports = async (env, options) => {
       taskpane: "./src/taskpane/taskpane.js",
       commands: "./src/commands/commands.js",
       sresults: "./src/taskpane/search-results.js",
+      settings: "./src/taskpane/settings.js",
       help: "./src/taskpane/help.js"
     },
     resolve: {

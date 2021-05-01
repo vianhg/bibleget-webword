@@ -24,7 +24,7 @@
           <div class="content">
             <h4 class="title">
               Estilos de párrafo
-              <button id="btCollapsePar" class="button is-white is-small is-pulled-right" aria-label="more options">
+              <button type="button" id="btCollapsePar" class="button is-white is-small is-pulled-right" aria-label="more options">
                 <span class="icon">
                   <i class="fas fa-angle-down" aria-hidden="true"></i>
                 </span>
@@ -38,26 +38,33 @@
                   </select>
                 </div>
                 <p class="control">
-                  <button id="btLeftOutdent" class="button is-white"><i class="fa fa-outdent"></i></button>
+                  <button type="button" id="btLeftOutdent" class="button is-white"><i class="fa fa-outdent"></i></button>
                 </p>
                 <p class="control">
-                  <button id="btLeftIndent" class="button is-white"><i class="fa fa-indent"></i></button>
+                  <button type="button" id="btLeftIndent" class="button is-white"><i class="fa fa-indent"></i></button>
                 </p>
-                <div class="control">
-                  <button id="btAlignLeft" class="button is-white"><i class="fa fa-align-left"></i></button>
-                </div>
-                <div class="control">
-                  <button id="btAlignCenter" class="button is-white"><i class="fa fa-align-center"></i></button>
-                </div>
-                <div class="control">
-                  <button id="btAlignRight" class="button is-white"><i class="fa fa-align-right"></i></button>
-                </div>
-                <div class="control">
-                  <button id="btAlignJustify" class="button is-white"><i class="fa fa-align-justify"></i></button>
-                </div>
+                <label class="checkbox">
+                  <input name="btParAlign" type="radio" value="left" selected />
+                  <span class="button is-white"><i class="fa fa-align-left"></i></span>
+                </label>
+                <!-- <div class="control">
+                  <button type="button" id="btAlignLeft" class="button is-white"><i class="fa fa-align-left"></i></button>
+                </div> -->
+                <label class="checkbox">
+                  <input name="btParAlign" type="radio" value="center" />
+                  <span class="button is-white"><i class="fa fa-align-center"></i></span>
+                </label>
+                <label class="checkbox">
+                  <input name="btParAlign" type="radio" value="right" />
+                  <span class="button is-white"><i class="fa fa-align-right"></i></span>
+                </label>
+                <label class="checkbox">
+                  <input name="btParAlign" type="radio" value="justify" />
+                  <span class="button is-white"><i class="fa fa-align-justify"></i></span>
+                </label>                
                 <div class="dropdown is-hoverable">
                   <div class="dropdown-trigger">
-                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <button type="button" class="button" aria-haspopup="true" aria-controls="dropdown-menu">
                       <i class="fas fa-arrows-alt-v"></i>
                     </button>
                   </div>
@@ -77,10 +84,10 @@
                 </div>
                 <!-- end dropdown-->
                 <p class="control">
-                  <button id="btRightOutdent" class="button is-white"><i class="fa fa-outdent"></i></button>
+                  <button type="button" id="btRightOutdent" class="button is-white"><i class="fa fa-outdent"></i></button>
                 </p>
                 <p class="control">
-                  <button id="btRightIndent" class="button is-white"><i class="fa fa-indent"></i></button>
+                  <button type="button" id="btRightIndent" class="button is-white"><i class="fa fa-indent"></i></button>
                 </p>
               </div>
             </form>
@@ -95,7 +102,7 @@
           <div class="content">
             <h4 class="title">
               Formato Libro / Capítulo
-              <button id="btCollapseBook" class="button is-white is-small is-pulled-right" aria-label="more options">
+              <button type="button" id="btCollapseBook" class="button is-white is-small is-pulled-right" aria-label="more options">
                 <span class="icon">
                   <i class="fas fa-angle-down" aria-hidden="true"></i>
                 </span>
@@ -103,53 +110,39 @@
             </h4>
             <form id="formBook" class="is-hidden">
               <div class="field is-grouped-multiline is-horizontal">
-                <p class="control">
-                  <button id="btBookBold" class="button is-white"><i class="fa fa-bold"></i></button>
-                </p>
-                <p class="control">
-                  <button id="btBookItalic" class="button is-white"><i class="fa fa-italic"></i></button>
-                </p>
-                <div class="control">
-                  <button id="btBookUnder" class="button is-white"><i class="fa fa-underline"></i></button>
-                </div>
-                <div class="control">
-                  <button id="btBookSub" class="button is-white"><i class="fa fa-subscript"></i></button>
-                </div>
-                <div class="control">
-                  <button id="btBookSuper" class="button is-white"><i class="fa fa-superscript"></i></button>
-                </div>
+                <label class="checkbox">
+                  <input id="btBookBold" type="checkbox" />
+                  <span class="button is-white"><i class="fa fa-bold"></i></span>
+                </label>
+                <label class="checkbox">
+                  <input id="btBookItalic" type="checkbox" />
+                  <span class="button is-white"><i class="fa fa-italic"></i></span>
+                </label>
+                <label class="checkbox">
+                  <input id="btBookUnder" type="checkbox" />
+                  <span class="button is-white"><i class="fa fa-underline"></i></span>
+                </label>
+                <label class="checkbox">
+                  <input id="btBookSub" type="checkbox" />
+                  <span class="button is-white"><i class="fa fa-subscript"></i></span>
+                </label>
+                <label class="checkbox">
+                  <input id="btBookSuper" type="checkbox" />
+                  <span class="button is-white"><i class="fa fa-superscript"></i></span>
+                </label>
                 <div class="select is-rounded">
                   <select id="cbBookFontSize">
                     <option>10</option>
                   </select>
                 </div>
-                <div class="dropdown is-hoverable">
-                  <div class="dropdown-trigger">
-                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                      <i class="fas fa-text-height"></i>
-                    </button>
-                  </div>
-                  <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                    <div class="dropdown-content">
-                      <a id="btBook1" class="dropdown-item">
-                        1.0
-                      </a>
-                      <a id="btBook15" class="dropdown-item">
-                        1.5
-                      </a>
-                      <a id="btBook2" class="dropdown-item is-active">
-                        2.0
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <!-- end dropdown-->
-                <p class="control">
-                  <button id="btBookColor" class="button is-danger is-inverted"><i class="fa fa-font"></i></button>
-                </p>
-                <p class="control">
-                  <button id="btBookBack" class="button is-warning"><i class="fa fa-font"></i></button>
-                </p>
+                <label class="checkbox">
+                  <input id="btBookColor" type="color" ></input>
+                  <span class="button is-danger is-inverted"><i class="fa fa-font"></i></span>
+                </label>
+                <label class="checkbox">
+                  <input id="btBookBack" type="color" ></input>
+                  <span class="button is-warning"><i class="fa fa-font"></i></span>
+                </label>
               </div>
             </form>
           </div>
@@ -163,7 +156,7 @@
           <div class="content">
             <h4 class="title">
               Formato número de versículo
-              <button id="btCollapseNum" class="button is-white is-small is-pulled-right" aria-label="more options">
+              <button type="button" id="btCollapseNum" class="button is-white is-small is-pulled-right" aria-label="more options">
                 <span class="icon">
                   <i class="fas fa-angle-down" aria-hidden="true"></i>
                 </span>
@@ -171,48 +164,39 @@
             </h4>
             <form id="formNum" class="is-hidden">
               <div class="field is-grouped-multiline is-horizontal">
-                <p class="control">
-                  <button id="btNumBold" class="button is-white"><i class="fa fa-bold"></i></button>
-                </p>
-                <p class="control">
-                  <button id="btNumItalic" class="button is-white"><i class="fa fa-italic"></i></button>
-                </p>
-                <div class="control">
-                  <button id="btNumUnder" class="button is-white"><i class="fa fa-underline"></i></button>
+                <label class="checkbox">
+                  <input id="btNumBold" type="checkbox" />
+                  <span class="button is-white"><i class="fa fa-bold"></i></span>
+                </label>
+                <label class="checkbox">
+                  <input id="btNumItalic" type="checkbox" />
+                  <span class="button is-white"><i class="fa fa-italic"></i></span>
+                </label>
+                <label class="checkbox">
+                  <input id="btNumUnder" type="checkbox" />
+                  <span class="button is-white"><i class="fa fa-underline"></i></span>
+                </label>
+                <label class="checkbox">
+                  <input id="btNumSub" type="checkbox" />
+                  <span class="button is-white"><i class="fa fa-subscript"></i></span>
+                </label>
+                <label class="checkbox">
+                  <input id="btNumSuper" type="checkbox" />
+                  <span class="button is-white"><i class="fa fa-superscript"></i></span>
+                </label>
+                <div class="select is-rounded">
+                  <select id="cbNumFontSize">
+                    <option>10</option>
+                  </select>
                 </div>
-                <div class="control">
-                  <button id="btNumSub" class="button is-white"><i class="fa fa-subscript"></i></button>
-                </div>
-                <div class="control">
-                  <button id="btNumSuper" class="button is-white"><i class="fa fa-superscript"></i></button>
-                </div>
-                <div class="dropdown is-hoverable">
-                  <div class="dropdown-trigger">
-                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                      <i class="fas fa-text-height"></i>
-                    </button>
-                  </div>
-                  <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                    <div class="dropdown-content">
-                      <a id="btNum1" class="dropdown-item">
-                        1.0
-                      </a>
-                      <a id="btNum15" class="dropdown-item">
-                        1.5
-                      </a>
-                      <a id="btNum2" class="dropdown-item is-active">
-                        2.0
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <!-- end dropdown-->
-                <p class="control">
-                  <button id="btNumColor" class="button is-danger is-inverted"><i class="fa fa-font"></i></button>
-                </p>
-                <p class="control">
-                  <button id="btNumBack" class="button is-warning"><i class="fa fa-font"></i></button>
-                </p>
+                <label class="checkbox">
+                  <input id="btNumColor" type="color" ></input>
+                  <span class="button is-danger is-inverted"><i class="fa fa-font"></i></span>
+                </label>
+                <label class="checkbox">
+                  <input id="btNumBack" type="color" ></input>
+                  <span class="button is-warning"><i class="fa fa-font"></i></span>
+                </label>
               </div>
             </form>
           </div>
@@ -234,48 +218,39 @@
             </h4>
             <form id="formText" class="is-hidden">
               <div class="field is-grouped-multiline is-horizontal">
-                <p class="control">
-                  <button id="btTextBold" class="button is-white"><i class="fa fa-bold"></i></button>
-                </p>
-                <p class="control">
-                  <button id="btTextItalic" class="button is-white"><i class="fa fa-italic"></i></button>
-                </p>
-                <div class="control">
-                  <button id="btTextUnder" class="button is-white"><i class="fa fa-underline"></i></button>
+                <label class="checkbox">
+                  <input id="btTextBold" type="checkbox" />
+                  <span class="button is-white"><i class="fa fa-bold"></i></span>
+                </label>
+                <label class="checkbox">
+                  <input id="btTextItalic" type="checkbox" />
+                  <span class="button is-white"><i class="fa fa-italic"></i></span>
+                </label>
+                <label class="checkbox">
+                  <input id="btTextUnder" type="checkbox" />
+                  <span class="button is-white"><i class="fa fa-underline"></i></span>
+                </label>
+                <label class="checkbox">
+                  <input id="btTextSub" type="checkbox" />
+                  <span class="button is-white"><i class="fa fa-subscript"></i></span>
+                </label>
+                <label class="checkbox">
+                  <input id="btTextSuper" type="checkbox" />
+                  <span class="button is-white"><i class="fa fa-superscript"></i></span>
+                </label>
+                <div class="select is-rounded">
+                  <select id="cbTextFontSize">
+                    <option>10</option>
+                  </select>
                 </div>
-                <div class="control">
-                  <button id="btTextSub" class="button is-white"><i class="fa fa-subscript"></i></button>
-                </div>
-                <div class="control">
-                  <button id="btTextSuper" class="button is-white"><i class="fa fa-superscript"></i></button>
-                </div>
-                <div class="dropdown is-hoverable">
-                  <div class="dropdown-trigger">
-                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                      <i class="fas fa-text-height"></i>
-                    </button>
-                  </div>
-                  <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                    <div class="dropdown-content">
-                      <a id="btText1" class="dropdown-item">
-                        1.0
-                      </a>
-                      <a id="btText15" class="dropdown-item">
-                        1.5
-                      </a>
-                      <a id="btText2" class="dropdown-item is-active">
-                        2.0
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <!-- end dropdown-->
-                <p class="control">
-                  <button id="btTextColor" class="button is-danger is-inverted"><i class="fa fa-font"></i></button>
-                </p>
-                <p class="control">
-                  <button id="btTextBack" class="button is-warning"><i class="fa fa-font"></i></button>
-                </p>
+                <label class="checkbox">
+                  <input id="btTextColor" type="color" ></input>
+                  <span class="button is-danger is-inverted"><i class="fa fa-font"></i></span>
+                </label>
+                <label class="checkbox">
+                  <input id="btTextBack" type="color" ></input>
+                  <span class="button is-warning"><i class="fa fa-font"></i></span>
+                </label>
               </div>
             </form>
           </div>
@@ -286,12 +261,15 @@
 
     <!-- Vista previa -->
     <div class="content">
-      <hr/>
+      <hr />
       <section class="container is-fluid">
         <h2 class="title">Vista previa</h2>
         <div class="box">
-          <div id="book">Génesis 1</div>
-          <p><span id="verse">1</span> <span id="text">In principio creavit Deus cælum et terram.</span></p>
+          <div id="prevParagraph" >
+            <div class="rule"><div class="measures"></div></div>
+            <span id="prevBook">Génesis 1</span>
+            <p><span id="prevVerse">1</span> <span id="prevText">In principio creavit Deus cælum et terram.</span></p>
+          </div>
         </div>
       </section>
     </div>
@@ -301,11 +279,12 @@
       <hr />
       <section class="container is-fluid">
         <h2 class="title">Versiones e idiomas compatibles</h2>
+        <p id="lbErrMsg" class="help is-danger"></p>
         <p>
           Los nombres de los libros de la Biblia son reconocidos actualmente en <span>25</span> idiomas diferentes.
           Actualmente los idiomas soportados son:
         </p>
-        <p>Inglés, Latín, Español.</p>
+        <p id="txtLang">Inglés, Latín, Español.</p>
         <p><span>4</span> versiones de la Biblia están soportadas actualmente:</p>
         <table>
           <thead>
@@ -324,7 +303,7 @@
           </tbody>
         </table>
         <div class="has-text-centered">
-          <button id="btUpdateVersions" class="button">
+          <button type="button" id="btUpdateVersions" class="button">
             <i class="fa fa-download" aria-hidden="true"> </i> <span class="pl-2">Actualizar desde el servidor.</span>
           </button>
         </div>
