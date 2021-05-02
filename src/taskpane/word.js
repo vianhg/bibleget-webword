@@ -48,7 +48,7 @@ Office.onReady(async function(info) {
     document.getElementById("btAbout").onclick = showAbout;
     getStyleSettings();
     await loadVersions();
-    setPreferedVersionByLang();
+    setPreferedVersion();
   }
 });
 
@@ -93,13 +93,17 @@ function getPreferedOrigin() {
   }
 }
 
-function setPreferedVersionByLang() {
+function setPreferedVersion() {
+  const savedVersion = localStorage.getItem("bible.selectedversion");
   try {
     const lang = "|" + getPreferedLanguage();
     let options = document.querySelectorAll("#cbVersion option");
 
     for (let i in options) {
-      if (typeof options[i].innerHTML != "undefined" && options[i].innerHTML.indexOf(lang) > 0) {
+      if (
+        options[i].value === savedVersion ||
+        (typeof options[i].innerHTML != "undefined" && options[i].innerHTML.indexOf(lang) > 0)
+      ) {
         options[i].selected = true;
         break;
       }
@@ -121,17 +125,10 @@ async function searchByQuote(document, quote, version, preferOrigin) {
   try {
     const verses = await BibleGetService.getByQuote(quote, version, preferOrigin);
     let range = document.getSelection();
+    insertVersion(range);
 
     for (let i in verses) {
-      const verse = range.insertText(verses[i].verse + " ", "End");
-      verse.font.superscript = true;
-      const text = range.insertText(verses[i].text, "End");      
-      text.font.set({
-        name: settings.par.fontFamily,
-        bold: settings.text.bold,
-        size: settings.text.fontSize,
-        superscript: settings.text.superscript
-      });
+      insertQuote(range, verses[i]);
     }
   } catch (e) {
     notifyError(`Hubo un problema al consultar la cita bíblica en el servidor.`);
@@ -176,17 +173,45 @@ function processMessage(arg) {
 
 export const insertResult = q => {
   return Word.run(async context => {
-    await insertQuote(context.document, q);
+    const range = context.document.getSelection();
+    insertQuote(range, q, true);
     await context.sync();
   });
 };
 
-function insertQuote(document, quote) {
-  let range = document.getSelection();
+function insertQuote(range, quote, insVersion = false) {
+  if (insVersion) {
+    insertVersion(range);
+  }
+
   const verse = range.insertText(quote.verse + " ", "End");
-  verse.font.superscript = true;
+  verse.font.set({
+    name: settings.par.fontFamily,
+    bold: settings.verse.bold,
+    size: settings.verse.fontSize,
+    superscript: settings.verse.superscript
+  });
   const text = range.insertText(quote.text, "End");
-  text.font.superscript = false;
+  text.font.set({
+    name: settings.par.fontFamily,
+    bold: settings.text.bold,
+    size: settings.text.fontSize,
+    superscript: settings.text.superscript
+  });
+}
+
+function insertVersion(range) {
+  const version = range.insertText(getSavedVersion() + " ", "End");
+  version.font.set({
+    name: settings.par.fontFamily,
+    bold: settings.book.bold,
+    size: settings.book.fontSize,
+    superscript: settings.book.superscript
+  });
+}
+
+function getSavedVersion() {
+  return localStorage.getItem("bible.selectedversion");
 }
 
 /**************************************** */
@@ -200,6 +225,7 @@ async function loadVersions() {
       versions = await BibleGetService.getVersions();
     }
     let cbVersions = document.getElementById("cbVersion");
+    cbVersions.onclick = saveSelectedVersion;
     let options = document.querySelectorAll("#cbVersion option");
     options.forEach(o => o.remove());
 
@@ -214,6 +240,12 @@ async function loadVersions() {
     console.error(e);
   }
 }
+
+function saveSelectedVersion() {
+  let cbVersion = document.getElementById("cbVersion");
+  localStorage.setItem("bible.selectedversion", cbVersion.value);
+  localStorage.removeItem("bible.selectedversion");
+}
 /***************************************************/
 export const showSettings = () => {
   Office.context.ui.displayDialogAsync("https://localhost:3000/settings.html", { height: 70, width: 50 });
@@ -226,10 +258,10 @@ export const showAbout = () => {
 };
 /***************************************************/
 //Bible Verse Regex
-  //const regex = /\d*[a-z]+\d+(?::(\d+))?(-(\d+)(?:([a-z]+)(\d+))?(?::(\d+))?)?/i;
+//const regex = /\d*[a-z]+\d+(?::(\d+))?(-(\d+)(?:([a-z]+)(\d+))?(?::(\d+))?)?/i;
 const regex = /^\d*[a-z]+\d+(([,:]\d+)?(-\d+)?)?$/i;
 
-export const isValidQuote = value => {  
+export const isValidQuote = value => {
   return regex.test(value.replaceAll(" ", ""));
 };
 export const validateQuote = () => {

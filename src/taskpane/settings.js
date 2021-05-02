@@ -217,24 +217,33 @@ function setParLineHeight(heigth) {
   prevParagraph.style["line-height"] = heigth * 100 + "%";
   save();
 }
+function setIndent(styleName, divName, indent) {  
+  prevParagraph.style[styleName] = indent + "px";
+  let prevIndent = document.getElementById(divName);
+  prevIndent.style.left = (indent - 8)+"px";
+  prevIndent.innerHTML = indent + "mm";
+  save();
+}
 function setParLeftIndent() {
-  settings.par.leftIndent += 5;
-  prevParagraph.style["text-indent"] = settings.par.leftIndent + "mm";
+  settings.par.leftIndent += 5;  
+  setIndent("text-indent", "prevIndent", settings.par.leftIndent);
   save();
 }
 function setParLeftOutdent() {
   settings.par.leftIndent = Math.max(settings.par.leftIndent - 5, 0);
-  prevParagraph.style["text-indent"] = settings.par.leftIndent + "mm";
+  prevParagraph.style["text-indent"] = settings.par.leftIndent + "px";
+  setIndent("text-indent", "prevIndent", settings.par.leftIndent);
   save();
 }
 function setParRightIndent() {
-  settings.par.rightIndent = Math.max(settings.par.rightIndent - 5, 0);
-  prevParagraph.style["padding-right"] = settings.par.rightIndent + "mm";
+  settings.par.rightIndent = Math.max(settings.par.rightIndent - 5, 0);  
+  setIndent("padding-right", "prevOutdent", settings.par.rightIndent);
   save();
 }
 function setParRightOutdent() {
   settings.par.rightIndent += 5;
-  prevParagraph.style["padding-right"] = settings.par.rightIndent + "mm";
+  prevParagraph.style["padding-right"] = settings.par.rightIndent + "px";
+  setIndent("padding-right", "prevOutdent", settings.par.rightIndent);
   save();
 }
 function setParFontFamily() {
@@ -417,6 +426,7 @@ async function fillVersions() {
 
   let list = document.getElementById("tbVersions");
   list.innerHTML = html;
+  document.getElementById("txtNbVersions").innerHTML = Object.keys(bibleVersions).length;
 }
 
 function createVersionEntry(abbr, nameyear) {
@@ -430,6 +440,7 @@ async function fillSupportedLanguages() {
   if (languages) {
     let txtLang = document.getElementById("txtLang");
     txtLang.innerHTML = languages.join(", ");
+    document.getElementById("txtNbLang").innerHTML = languages.length;
   }
 }
 

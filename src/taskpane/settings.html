@@ -266,7 +266,12 @@
         <h2 class="title">Vista previa</h2>
         <div class="box">
           <div id="prevParagraph" >
-            <div class="rule"><div class="measures"></div></div>
+            <div class="rule">
+              <div class="measures">
+                <div id="prevIndent" class="indent">0mm</div>
+                <div id="prevOutdent" class="outdent">0mm</div>
+              </div>
+            </div>
             <span id="prevBook">Génesis 1</span>
             <p><span id="prevVerse">1</span> <span id="prevText">In principio creavit Deus cælum et terram.</span></p>
           </div>
@@ -281,11 +286,11 @@
         <h2 class="title">Versiones e idiomas compatibles</h2>
         <p id="lbErrMsg" class="help is-danger"></p>
         <p>
-          Los nombres de los libros de la Biblia son reconocidos actualmente en <span>25</span> idiomas diferentes.
+          Los nombres de los libros de la Biblia son reconocidos actualmente en <span id="txtNbLang">25</span> idiomas diferentes.
           Actualmente los idiomas soportados son:
         </p>
         <p id="txtLang">Inglés, Latín, Español.</p>
-        <p><span>4</span> versiones de la Biblia están soportadas actualmente:</p>
+        <p><span id="txtNbVersions">4</span> versiones de la Biblia están soportadas actualmente:</p>
         <table>
           <thead>
             <tr>
