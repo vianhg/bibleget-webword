@@ -9,6 +9,7 @@ var settings = {
     fontSize: 10,
     bold: false,
     color: "black",
+    background: null,
     italic: false,
     subscript: false,
     superscript: false,
@@ -18,6 +19,7 @@ var settings = {
     fontSize: 10,
     bold: false,
     color: "black",
+    background: null,
     italic: false,
     subscript: false,
     superscript: false,
@@ -27,6 +29,7 @@ var settings = {
     fontSize: 10,
     bold: false,
     color: "black",
+    background: null,
     italic: false,
     subscript: false,
     superscript: false,
@@ -130,10 +133,8 @@ function settingSavedValues() {
 function updatePreview() {
   prevParagraph.style["text-align"] = settings.par.align;
   prevParagraph.style["line-height"] = settings.par.interline * 100 + "%";
-  prevParagraph.style["text-indent"] = settings.par.leftIndent + "mm";
-  prevParagraph.style["text-indent"] = settings.par.leftIndent + "mm";
-  prevParagraph.style["padding-right"] = settings.par.rightIndent + "mm";
-  prevParagraph.style["padding-right"] = settings.par.rightIndent + "mm";
+  setIndent("text-indent", "prevIndent", settings.par.leftIndent);
+  setIndent("padding-right", "prevOutdent", settings.par.rightIndent);
   prevParagraph.style["font-family"] = settings.par.fontFamily;
 
   //Book
@@ -219,9 +220,13 @@ function setParLineHeight(heigth) {
 }
 function setIndent(styleName, divName, indent) {  
   prevParagraph.style[styleName] = indent + "px";
-  let prevIndent = document.getElementById(divName);
-  prevIndent.style.left = (indent - 8)+"px";
-  prevIndent.innerHTML = indent + "mm";
+  let indentPointer = document.getElementById(divName);
+  if (divName === "prevIndent") {
+    indentPointer.style.left = (indent - 8)+"px";
+  } else {
+    indentPointer.style.right = (indent - 8)+"px";
+  }
+  indentPointer.innerHTML = indent + "mm";
   save();
 }
 function setParLeftIndent() {
@@ -266,7 +271,7 @@ function fillFontSizeComb(combo, defaultValue) {
   combo.innerHTML = html;
 }
 function setBookFontSize() {
-  settings.book.fontSize = document.getElementById("cbBookFontSize").value;
+  settings.book.fontSize = parseInt(document.getElementById("cbBookFontSize").value);
   prevBook.style["font-size"] = settings.book.fontSize + "px";
   save();
 }
@@ -311,7 +316,7 @@ function setBookUnder() {
 
 //events on num section
 function setNumFontSize() {
-  settings.verse.fontSize = document.getElementById("cbNumFontSize").value;
+  settings.verse.fontSize = parseInt(document.getElementById("cbNumFontSize").value);
   prevVerse.style["font-size"] = settings.verse.fontSize + "px";
   save();
 }
@@ -355,7 +360,7 @@ function setNumUnder() {
 
 //Events on text section
 function setTextFontSize() {
-  settings.text.fontSize = document.getElementById("cbTextFontSize").value;
+  settings.text.fontSize = parseInt(document.getElementById("cbTextFontSize").value);
   prevText.style["font-size"] = settings.text.fontSize + "px";
   save();
 }

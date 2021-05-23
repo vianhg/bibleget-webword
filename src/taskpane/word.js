@@ -10,6 +10,7 @@ var settings = {
     fontSize: 10,
     bold: false,
     color: "black",
+    background: null,
     italic: false,
     subscript: false,
     superscript: false,
@@ -19,6 +20,7 @@ var settings = {
     fontSize: 10,
     bold: false,
     color: "black",
+    background: null,
     italic: false,
     subscript: false,
     superscript: false,
@@ -28,6 +30,7 @@ var settings = {
     fontSize: 10,
     bold: false,
     color: "black",
+    background: null,
     italic: false,
     subscript: false,
     superscript: false,
@@ -45,8 +48,7 @@ Office.onReady(async function(info) {
     document.getElementById("txtQuote").onkeyup = validateQuote;
     document.getElementById("btSettings").onclick = showSettings;
     document.getElementById("btHelp").onclick = showHelp;
-    document.getElementById("btAbout").onclick = showAbout;
-    getStyleSettings();
+    document.getElementById("btAbout").onclick = showAbout;    
     await loadVersions();
     setPreferedVersion();
   }
@@ -61,6 +63,7 @@ function getStyleSettings() {
 
 export async function getByQuote() {
   return Word.run(async context => {
+    getStyleSettings();
     await getByQuoteOffice(document, context);
     await context.sync();
   });
@@ -68,6 +71,7 @@ export async function getByQuote() {
 
 export async function getByKeyword() {
   return Word.run(async context => {
+    getStyleSettings();
     await getByKeywordOffice();
     await context.sync();
   });
@@ -105,6 +109,7 @@ function setPreferedVersion() {
         (typeof options[i].innerHTML != "undefined" && options[i].innerHTML.indexOf(lang) > 0)
       ) {
         options[i].selected = true;
+        localStorage.setItem("bible.selectedversion", options[i].value);
         break;
       }
     }
@@ -125,8 +130,9 @@ async function searchByQuote(document, quote, version, preferOrigin) {
   try {
     const verses = await BibleGetService.getByQuote(quote, version, preferOrigin);
     let range = document.getSelection();
-    insertVersion(range);
 
+    insertVersion(range);
+console.log(verses);
     for (let i in verses) {
       insertQuote(range, verses[i]);
     }
@@ -183,31 +189,57 @@ function insertQuote(range, quote, insVersion = false) {
   if (insVersion) {
     insertVersion(range);
   }
-
+console.log("insert quote" + quote.verse);
   const verse = range.insertText(quote.verse + " ", "End");
+  setParagraphStyle(verse.paragraphs.getFirstOrNullObject());
   verse.font.set({
     name: settings.par.fontFamily,
     bold: settings.verse.bold,
-    size: settings.verse.fontSize,
-    superscript: settings.verse.superscript
+    size: parseInt(settings.verse.fontSize),
+    superscript: settings.verse.superscript,
+    subscript: settings.verse.subscript,
+    underline: settings.verse.underline? Word.UnderlineType.single : Word.UnderlineType.none,
+    color: settings.verse.color,
+    italic: settings.verse.italic,
+    highlightColor: settings.verse.background
   });
   const text = range.insertText(quote.text, "End");
   text.font.set({
     name: settings.par.fontFamily,
     bold: settings.text.bold,
-    size: settings.text.fontSize,
-    superscript: settings.text.superscript
+    size: parseInt(settings.text.fontSize),
+    superscript: settings.text.superscript,
+    subscript: settings.text.subscript,
+    underline: settings.text.underline? Word.UnderlineType.single : Word.UnderlineType.none,
+    color: settings.text.color,
+    italic: settings.text.italic,
+    highlightColor: settings.text.background
   });
 }
 
 function insertVersion(range) {
-  const version = range.insertText(getSavedVersion() + " ", "End");
+  const version = range.insertParagraph(getSavedVersion(), Word.InsertLocation.before);
+
+  setParagraphStyle(version);
   version.font.set({
-    name: settings.par.fontFamily,
+    name: settings.par.fontFamily});
+  version.font.set({    
     bold: settings.book.bold,
-    size: settings.book.fontSize,
-    superscript: settings.book.superscript
+    size: parseInt(settings.book.fontSize),
+    superscript: settings.book.superscript,
+    subscript: settings.book.subscript,
+    underline: settings.book.underline? Word.UnderlineType.single : Word.UnderlineType.none,
+    color: settings.book.color,
+    italic: settings.book.italic,
+    highlightColor: settings.book.background
   });
+  return version;
+}
+function setParagraphStyle(par) {
+  par.alignment = settings.par.align;
+  par.leftIndent = settings.par.leftIndent /  0.3527;
+  par.rightIndent = settings.par.rightIndent /  0.3527;
+  par.lineSpacing = 10*settings.par.interline;
 }
 
 function getSavedVersion() {
