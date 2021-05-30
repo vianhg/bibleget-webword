@@ -23,26 +23,26 @@
     <main id="app-body" style="display: none;">
       <section id="appSection" class="section" style="padding-top: 0;display: flex;">
         <form>
-          <label class="label">Buscar por cita.</label>
+          <label class="label" translate="MAIN_SQUOTE">Buscar por cita</label>
           <div class="field has-addons">
             <div class="control has-icons-right is-expanded">
-              <input class="input" type="text" placeholder="Juan 3, 16" value="" id="txtQuote" />
+              <input class="input" type="text" placeholder="Juan 3, 16" value="" id="txtQuote" translate-attr="placeholder" />
             </div>
             <div class="control" id="getByQuote">
-              <a class="button is-info" title="Consultar">
+              <a class="button is-info" title="Consultar" translate-attr="title">
                 <i class="fa fa-search"></i>
               </a>
             </div>
           </div>
           <p id="lbErrMsg" class="help is-danger"></p>
 
-          <label class="label">Buscar por palabra clave.</label>
+          <label class="label" translate="MAIN_SKEYWORD">Buscar por palabra clave</label>
           <div class="field has-addons">
             <div class="control has-icons-right is-expanded">
-              <input class="input" type="text" placeholder="Creación" value="" id="txtKeyword" />
+              <input class="input" type="text" placeholder="Creación" value="" id="txtKeyword" translate-attr="placeholder" />
             </div>
             <div class="control" id="getByKeyword">
-              <a class="button is-info" title="Consultar">
+              <a class="button is-info" title="Consultar" translate-attr="title">
                 <span class="icon">
                   <i class="fa fa-search"></i>
                 </span>
@@ -53,14 +53,14 @@
             <div class="control">
               <label class="checkbox">
                 <input type="checkbox" id="chkExactMatch" />
-                Coincidencia exacta
+                <span translate="MAIN_EXACT">Coincidencia exacta</span>
               </label>
             </div>
           </div>
           <hr />
           <div class="field">
             <div class="control">
-              <label class="label">Versión.</label>
+              <label class="label" translate="MAIN_VERSION">Versión</label>
               <div class="select is-rounded is-fullwidth">
                 <select id="cbVersion">
                   <option value="CEI2008">Conferenza Episcopale Italiana|2008|it</option>
@@ -69,35 +69,33 @@
                   <option value="NABRE">New American Bible - Revised Edition|2011|en</option>
                   <option value="NVBSE">Nova Vulgata - Bibliorum Sacrorum Editio|1979|la</option>
                   <option value="VGCL">Vulgata Clementina|1592|la</option>
-                  <!--<option value="BLPD">Libro del Pueblo de Dios|2015|es</option>-->
+                  <option value="BLPD">Libro del Pueblo de Dios|2015|es</option>
                 </select>
               </div>
             </div>
           </div>
           <div class="field">
-            <label class="label">Origen preferido.</label>
+            <label class="label" translate="MAIN_ORIGIN">Origen preferido</label>
             <div class="control">
               <label class="radio">
                 <input type="radio" name="rdOrigin" value="GREEK" checked />
-                Griego
+                <span translate="MAIN_O_GREEK">Griego</span>
               </label>
               <label class="radio">
                 <input type="radio" name="rdOrigin" value="HEBREW" />
-                Hebreo
+                <span translate="MAIN_O_HEBREW">Hebreo</span>
               </label>
             </div>
           </div>
-          <!--</form>
-        <form>-->
           <div class="content pt-6">
             <div class="buttons is-centered">
-              <button id="btSettings" class="button is-white" title="Configuración">
+              <button id="btSettings" class="button is-white" title="Configuración" translate-attr="title">
                 <i class="fa fa-cog"></i>
               </button>
-              <button id="btHelp" class="button is-white" title="Ayuda">
+              <button id="btHelp" class="button is-white" title="Ayuda" translate-attr="title">
                 <i class="fa fa-question-circle"></i>
               </button>
-              <button id="btAbout" class="button is-white" title="Acerca de">
+              <button id="btAbout" class="button is-white" title="Acerca de" translate-attr="title">
                 <i class="fa fa-info"></i>
               </button>
             </div>

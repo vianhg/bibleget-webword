@@ -19,7 +19,9 @@ module.exports = async (env, options) => {
       commands: "./src/commands/commands.js",
       sresults: "./src/taskpane/search-results.js",
       settings: "./src/taskpane/settings.js",
-      help: "./src/taskpane/help.js"
+      help: "./src/taskpane/help.js",
+      about: "./src/taskpane/about.js",
+      i18n: "./src/taskpane/i18n.js"
     },
     resolve: {
       extensions: [".ts", ".tsx", ".html", ".js"]
@@ -55,7 +57,7 @@ module.exports = async (env, options) => {
       new HtmlWebpackPlugin({
         filename: "taskpane.html",
         template: "./src/taskpane/taskpane.html",
-        chunks: ["polyfill", "taskpane"]
+        chunks: ["polyfill", "taskpane", "i18n"]
       }),
       new CopyWebpackPlugin({
         patterns: [
@@ -79,7 +81,7 @@ module.exports = async (env, options) => {
       new HtmlWebpackPlugin({
         filename: "settings.html",
         template: "./src/taskpane/settings.html",
-        chunks: ["polyfill", "settings"]
+        chunks: ["polyfill", "settings", "i18n"]
       }),
       new CopyWebpackPlugin({
         patterns: [
@@ -92,7 +94,7 @@ module.exports = async (env, options) => {
       new HtmlWebpackPlugin({
         filename: "search-results.html",
         template: "./src/taskpane/search-results.html",
-        chunks: ["polyfill", "sresults"]
+        chunks: ["polyfill", "sresults", "i18n"]
       }),
       new CopyWebpackPlugin({
         patterns: [
@@ -116,7 +118,7 @@ module.exports = async (env, options) => {
       new HtmlWebpackPlugin({
         filename: "help.html",
         template: "./src/taskpane/help.html",
-        chunks: ["polyfill", "help"]
+        chunks: ["polyfill", "help", "i18n"]
       }),
       new CopyWebpackPlugin({
         patterns: [
@@ -129,7 +131,7 @@ module.exports = async (env, options) => {
       new HtmlWebpackPlugin({
         filename: "about.html",
         template: "./src/taskpane/about.html",
-        chunks: ["polyfill", "about"]
+        chunks: ["polyfill", "about", "i18n"]
       }),
       new CopyWebpackPlugin({
         patterns: [

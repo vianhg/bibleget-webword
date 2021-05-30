@@ -1,11 +1,11 @@
+const i18n = require("./i18n");
+
 Office.onReady().then(function() {
+  i18n.loadTranslations();
   document.getElementById("btDone").onclick = closeWindow;
   document.getElementById("txtFilter").onkeyup = filterSearchResults;
 
   const urlParams = new URLSearchParams(window.location.search);
-  for (const [key, value] of urlParams) {
-    console.log(`${key}:${value}`);
-  }
   searchByKeyword(urlParams.get("keyword"), urlParams.get("version"), urlParams.get("exactmatch"));
 });
 
@@ -15,9 +15,9 @@ async function searchByKeyword(keyword, version, exactmatch) {
   try {
     results = await BibleGetService.searchKeyword(keyword, version, exactmatch);
     filtered = results;
-    showResults(results);
+    showResults();
   } catch (e) {
-    notifyError(`Hubo un problema al buscar por palabra clave en el servidor.`);
+    notifyError(i18n.tr("ERROR_SEARCH_BY_KEYWORD"));
     console.error(e);
   }
 }

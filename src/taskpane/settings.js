@@ -36,8 +36,10 @@ var settings = {
     underline: false
   }
 };
+const i18n = require("./i18n");
 
 Office.onReady().then(async function() {
+  i18n.loadTranslations();
   document.getElementById("btCollapsePar").onclick = () => toggleParagraphCard("formPar");
   document.getElementById("btCollapseBook").onclick = () => toggleParagraphCard("formBook");
   document.getElementById("btCollapseNum").onclick = () => toggleParagraphCard("formNum");
@@ -412,7 +414,7 @@ async function updateVersions() {
     bibleVersions = await BibleGetService.getVersions();
     localStorage.setItem("bible.versions", JSON.stringify(bibleVersions));
   } catch (e) {
-    notifyError(`Hubo un problema al consultar el servidor.`);
+    notifyError(tr("ERROR_AT_QUERY_SERVER"));
     console.error(e);
   }
 }
@@ -462,7 +464,7 @@ async function getSupportedLanguages() {
     }
     return languages;
   } catch (e) {
-    notifyError(`Hubo un problema al consultar el servidor.`);
+    notifyError(tr("ERROR_AT_QUERY_SERVER"));
     console.error(e);
   }
   return null;
@@ -470,6 +472,7 @@ async function getSupportedLanguages() {
 function notifyError(errorMessage) {
   document.getElementById("lbErrMsg").innerHTML = errorMessage;
 }
+
 /*************************************************************************************************/
 const axios = require("axios");
 const BGET_METADATA_ENDPOINT = "https://query.bibleget.io/v3/metadata.php?";

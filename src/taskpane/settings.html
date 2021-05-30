@@ -18,12 +18,12 @@
   <body>
     <div class="has-text-centered"><img src="../../assets/icon-64.png" alt="" /></div>
     <section class="container is-fluid">
-      <h2 class="title">Formato del texto</h2>
+      <h2 class="title" translate="SETTING_TIT_FORMAT">Formato del texto</h2>
       <div class="message is-dark">
         <div class="message-body">
           <div class="content">
             <h4 class="title">
-              Estilos de párrafo
+              <span translate="SETTING_TIT_PARSTYLE">Estilos de párrafo</span>
               <button type="button" id="btCollapsePar" class="button is-white is-small is-pulled-right" aria-label="more options">
                 <span class="icon">
                   <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -47,9 +47,6 @@
                   <input name="btParAlign" type="radio" value="left" selected />
                   <span class="button is-white"><i class="fa fa-align-left"></i></span>
                 </label>
-                <!-- <div class="control">
-                  <button type="button" id="btAlignLeft" class="button is-white"><i class="fa fa-align-left"></i></button>
-                </div> -->
                 <label class="checkbox">
                   <input name="btParAlign" type="radio" value="center" />
                   <span class="button is-white"><i class="fa fa-align-center"></i></span>
@@ -101,7 +98,7 @@
         <div class="message-body">
           <div class="content">
             <h4 class="title">
-              Formato Libro / Capítulo
+              <span translate="SETTING_TIT_BOOK">Formato Libro / Capítulo</span>
               <button type="button" id="btCollapseBook" class="button is-white is-small is-pulled-right" aria-label="more options">
                 <span class="icon">
                   <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -155,7 +152,7 @@
         <div class="message-body">
           <div class="content">
             <h4 class="title">
-              Formato número de versículo
+              <span translate="SETTING_TIT_VERSE">Formato número de versículo</span>
               <button type="button" id="btCollapseNum" class="button is-white is-small is-pulled-right" aria-label="more options">
                 <span class="icon">
                   <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -209,7 +206,7 @@
         <div class="message-body">
           <div class="content">
             <h4 class="title">
-              Formato texto del versículo
+              <span translate="SETTING_TIT_TEXT">Formato texto del versículo</span>
               <button id="btCollapseText" class="button is-white is-small is-pulled-right" aria-label="more options">
                 <span class="icon">
                   <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -263,7 +260,7 @@
     <div class="content">
       <hr />
       <section class="container is-fluid">
-        <h2 class="title">Vista previa</h2>
+        <h2 class="title" translate="SETTING_PREVIEW">Vista previa</h2>
         <div class="box">
           <div id="prevParagraph" >
             <div class="rule">
@@ -272,7 +269,7 @@
                 <div id="prevOutdent" class="outdent">0mm</div>
               </div>
             </div>
-            <span id="prevBook">Génesis 1</span>
+            <span id="prevBook">Genesis 1</span>
             <p><span id="prevVerse">1</span> <span id="prevText">In principio creavit Deus cælum et terram.</span></p>
           </div>
         </div>
@@ -283,20 +280,20 @@
     <div class="content">
       <hr />
       <section class="container is-fluid">
-        <h2 class="title">Versiones e idiomas compatibles</h2>
+        <h2 class="title" translate="SETTING_LANG">Versiones e idiomas compatibles</h2>
         <p id="lbErrMsg" class="help is-danger"></p>
         <p>
-          Los nombres de los libros de la Biblia son reconocidos actualmente en <span id="txtNbLang">25</span> idiomas diferentes.
-          Actualmente los idiomas soportados son:
+          <span translate="SETTING_LANG0">Los nombres de los libros de la Biblia son reconocidos actualmente en</span> <span id="txtNbLang">25</span> 
+          <span translate="SETTING_LANG1">idiomas diferentes. Actualmente los idiomas soportados son:</span>
         </p>
         <p id="txtLang">Inglés, Latín, Español.</p>
-        <p><span id="txtNbVersions">4</span> versiones de la Biblia están soportadas actualmente:</p>
+        <p><span id="txtNbVersions">4</span> <span translate="SETTING_SUP_VERS">versiones de la Biblia están soportadas actualmente:</span></p>
         <table>
           <thead>
             <tr>
-              <th>Abreviatura</th>
-              <th>Título</th>
-              <th>Año</th>
+              <th translate="SETTING_TH_ABBR">Abreviatura</th>
+              <th translate="SETTING_TH_TITLE">Título</th>
+              <th translate="SETTING_TH_YEAR">Año</th>
             </tr>
           </thead>
           <tbody id="tbVersions">
@@ -309,7 +306,7 @@
         </table>
         <div class="has-text-centered">
           <button type="button" id="btUpdateVersions" class="button">
-            <i class="fa fa-download" aria-hidden="true"> </i> <span class="pl-2">Actualizar desde el servidor.</span>
+            <i class="fa fa-download" aria-hidden="true"> </i> <span class="pl-2" translate="SETTING_UPDATE">Actualizar desde el servidor.</span>
           </button>
         </div>
       </section>

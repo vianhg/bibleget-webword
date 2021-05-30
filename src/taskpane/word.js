@@ -3,7 +3,8 @@
  * See LICENSE in the project root for license information.
  */
 
-// images references in the manifest
+const i18n = require("./i18n");
+
 var settings = {
   par: { align: "left", interline: 1, leftIndent: 0, rightIndent: 0, fontFamily: "Arial" },
   book: {
@@ -51,6 +52,7 @@ Office.onReady(async function(info) {
     document.getElementById("btAbout").onclick = showAbout;    
     await loadVersions();
     setPreferedVersion();
+    i18n.loadTranslations();
   }
 });
 
@@ -132,12 +134,12 @@ async function searchByQuote(document, quote, version, preferOrigin) {
     let range = document.getSelection();
 
     insertVersion(range);
-console.log(verses);
+
     for (let i in verses) {
       insertQuote(range, verses[i]);
     }
   } catch (e) {
-    notifyError(`Hubo un problema al consultar la cita bíblica en el servidor.`);
+    notifyError(i18n.tr("ERROR_SEARCH_BY_QUOTE"));
     console.error(e);
   }
 }
@@ -189,7 +191,7 @@ function insertQuote(range, quote, insVersion = false) {
   if (insVersion) {
     insertVersion(range);
   }
-console.log("insert quote" + quote.verse);
+
   const verse = range.insertText(quote.verse + " ", "End");
   setParagraphStyle(verse.paragraphs.getFirstOrNullObject());
   verse.font.set({
@@ -268,7 +270,7 @@ async function loadVersions() {
       cbVersions.appendChild(opt);
     }
   } catch (e) {
-    notifyError(`Hubo un problema al consultar las versiones en el servidor.`);
+    notifyError(i18n.tr("ERROR_GET_VERSIONS"));
     console.error(e);
   }
 }
@@ -277,6 +279,8 @@ function saveSelectedVersion() {
   let cbVersion = document.getElementById("cbVersion");
   localStorage.setItem("bible.selectedversion", cbVersion.value);
   localStorage.removeItem("bible.selectedversion");
+
+  localStorage.setItem("bible.i18n.lang", "es");
 }
 /***************************************************/
 export const showSettings = () => {
@@ -301,7 +305,7 @@ export const validateQuote = () => {
   if (value == "" || isValidQuote(value)) {
     document.getElementById("lbErrMsg").innerHTML = ``;
   } else {
-    notifyError(`The biblical quote format is not valid.`);
+    notifyError(i18n.tr("ERROR_BAD_QUOTE"));
   }
 };
 function notifyError(errorMessage) {
@@ -309,14 +313,13 @@ function notifyError(errorMessage) {
 }
 /*************************************************************************************************/
 const axios = require("axios");
-//const url = require('url');
+
 const BGET_ENDPOINT = "https://query.bibleget.io/v3/index.php?";
 const BGET_METADATA_ENDPOINT = "https://query.bibleget.io/v3/metadata.php?";
 
 export var BibleGetService = {
   getByQuote: async function(quote, version = "CEI2008", preferOrigin = "GREEK") {
     const payload = { query: quote, version: version, preferorigin: preferOrigin, return: "json", appid: "office" };
-    //const params = new url.URLSearchParams(payload);
     const response = await axios.get(BGET_ENDPOINT, { params: payload });
     return response.data.results;
   },

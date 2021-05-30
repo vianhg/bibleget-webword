@@ -150,8 +150,11 @@ const metadata = {
     "Apocalipsis"
   ]
 };
+const i18n = require("./i18n");
+
 Office.onReady().then(async function() {
   await fillAbbrev();
+  i18n.loadTranslations();
 });
 
 async function fillAbbrev() {
