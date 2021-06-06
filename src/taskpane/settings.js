@@ -101,6 +101,10 @@ Office.onReady().then(async function() {
   prevVerse = document.getElementById("prevVerse");
   prevText = document.getElementById("prevText");
 
+  const cbLang = document.getElementById("cbLang");
+  cbLang.onclick = setAppLanguage;
+  cbLang.value = localStorage.getItem("bible.i18n.lang");
+
   const str = localStorage.getItem("bible.settings");
   if (str != null) {
     settings = JSON.parse(str);
@@ -471,6 +475,11 @@ async function getSupportedLanguages() {
 }
 function notifyError(errorMessage) {
   document.getElementById("lbErrMsg").innerHTML = errorMessage;
+}
+
+function setAppLanguage() {
+  const lang = document.getElementById("cbLang").value;
+  localStorage.setItem("bible.i18n.lang", lang ? lang.toLowerCase() : "es");
 }
 
 /*************************************************************************************************/

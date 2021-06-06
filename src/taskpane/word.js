@@ -49,12 +49,26 @@ Office.onReady(async function(info) {
     document.getElementById("txtQuote").onkeyup = validateQuote;
     document.getElementById("btSettings").onclick = showSettings;
     document.getElementById("btHelp").onclick = showHelp;
-    document.getElementById("btAbout").onclick = showAbout;    
+    document.getElementById("btAbout").onclick = showAbout;
     await loadVersions();
     setPreferedVersion();
+    setAppLanguage();
     i18n.loadTranslations();
   }
 });
+
+/** If there is not already a lang configured, then, get the lang of the app (ms word) and if it's different from the supported languages, then set the default language*/
+function setAppLanguage() {
+  let lang = localStorage.getItem("bible.i18n.lang");
+  if (typeof lang === "undefined") {
+    lang = Office.context.displayLanguage.slice(0, 2).toLowerCase();
+  }
+  if (lang != "en" && lang != "es") {
+    console.warn("Sorry, the language " + lang + " is not supported yet. Setting the default: es");
+    lang = "es";
+  }
+  localStorage.setItem("bible.i18n.lang", lang);
+}
 
 function getStyleSettings() {
   const str = localStorage.getItem("bible.settings");
@@ -200,7 +214,7 @@ function insertQuote(range, quote, insVersion = false) {
     size: parseInt(settings.verse.fontSize),
     superscript: settings.verse.superscript,
     subscript: settings.verse.subscript,
-    underline: settings.verse.underline? Word.UnderlineType.single : Word.UnderlineType.none,
+    underline: settings.verse.underline ? Word.UnderlineType.single : Word.UnderlineType.none,
     color: settings.verse.color,
     italic: settings.verse.italic,
     highlightColor: settings.verse.background
@@ -212,7 +226,7 @@ function insertQuote(range, quote, insVersion = false) {
     size: parseInt(settings.text.fontSize),
     superscript: settings.text.superscript,
     subscript: settings.text.subscript,
-    underline: settings.text.underline? Word.UnderlineType.single : Word.UnderlineType.none,
+    underline: settings.text.underline ? Word.UnderlineType.single : Word.UnderlineType.none,
     color: settings.text.color,
     italic: settings.text.italic,
     highlightColor: settings.text.background
@@ -224,13 +238,14 @@ function insertVersion(range) {
 
   setParagraphStyle(version);
   version.font.set({
-    name: settings.par.fontFamily});
-  version.font.set({    
+    name: settings.par.fontFamily
+  });
+  version.font.set({
     bold: settings.book.bold,
     size: parseInt(settings.book.fontSize),
     superscript: settings.book.superscript,
     subscript: settings.book.subscript,
-    underline: settings.book.underline? Word.UnderlineType.single : Word.UnderlineType.none,
+    underline: settings.book.underline ? Word.UnderlineType.single : Word.UnderlineType.none,
     color: settings.book.color,
     italic: settings.book.italic,
     highlightColor: settings.book.background
@@ -239,9 +254,9 @@ function insertVersion(range) {
 }
 function setParagraphStyle(par) {
   par.alignment = settings.par.align;
-  par.leftIndent = settings.par.leftIndent /  0.3527;
-  par.rightIndent = settings.par.rightIndent /  0.3527;
-  par.lineSpacing = 10*settings.par.interline;
+  par.leftIndent = settings.par.leftIndent / 0.3527;
+  par.rightIndent = settings.par.rightIndent / 0.3527;
+  par.lineSpacing = 10 * settings.par.interline;
 }
 
 function getSavedVersion() {
