@@ -1,9 +1,17 @@
+const PREV_VERSION = "VGCL";
+const PREV_BOOK_ABB = "Gn 1";
+const PREV_BOOK_FULL = "Genesis 1, 1";
+const PREV_BOOK = "Genesis 1";
+
 var prevParagraph;
 var prevBook;
 var prevVerse;
 var prevText;
+var prevVersion;
 
 var settings = {
+  version: { visible: false, wrapper: "", align: "left", pos: "up" },
+  bc: { presentation: "def", wrapper: "", align: "left", pos: "up"},
   par: { align: "left", interline: 1, leftIndent: 0, rightIndent: 0, fontFamily: "Arial" },
   book: {
     fontSize: 10,
@@ -16,6 +24,7 @@ var settings = {
     underline: false
   },
   verse: {
+    visible: true,
     fontSize: 10,
     bold: false,
     color: "black",
@@ -44,6 +53,8 @@ Office.onReady().then(async function() {
   document.getElementById("btCollapseBook").onclick = () => toggleParagraphCard("formBook");
   document.getElementById("btCollapseNum").onclick = () => toggleParagraphCard("formNum");
   document.getElementById("btCollapseText").onclick = () => toggleParagraphCard("formText");
+  document.getElementById("btCollapseVersion").onclick = () => toggleParagraphCard("formVersion");
+  document.getElementById("btCollapseBC").onclick = () => toggleParagraphCard("formBC");
 
   //events on paragraph section
   document.getElementsByName("btParAlign").forEach(r => (r.onclick = setParagraphAlign));
@@ -55,7 +66,7 @@ Office.onReady().then(async function() {
   document.getElementById("btRightIndent").onclick = setParRightIndent;
   document.getElementById("btRightOutdent").onclick = setParRightOutdent;
   const cbFontFamily = document.getElementById("cbFontFamily");
-  cbFontFamily.onclick = setParFontFamily;
+  cbFontFamily.onchange = setParFontFamily;
   fillFontFamilyComb(cbFontFamily);
 
   //events on book section
@@ -93,6 +104,27 @@ Office.onReady().then(async function() {
   cbTextFontSize.onclick = setTextFontSize;
   fillFontSizeComb(cbTextFontSize, settings.text.fontSize);
 
+  //Events on version section
+  document.getElementById("btTextBack").onchange = setTextBack;
+  document.getElementById("btTextBold").onclick = setTextBold;
+  document.getElementById("btTextColor").onchange = setTextColor;
+
+  //Events on book and chapter section
+  document.getElementById("btVersionVisible").onclick = setVersionVisible;
+  document.getElementById("cbVersWrapper").onchange = setVersionWrapper;
+  document.getElementsByName("btVersAlign").forEach(r => (r.onclick = setVersionAlign));
+  document.getElementById("cbVersPos").onchange = setVersionPos;
+  
+  //Book and chapter
+  document.getElementById("cbBCPres").onchange = setBCPresentation;
+  document.getElementById("cbBCWrapper").onchange = setBCWrapper;
+  document.getElementsByName("btBCAlign").forEach(r => (r.onclick = setBCAlign));
+  document.getElementById("cbBCPos").onchange = setBCPosition;
+
+  //Verse
+  document.getElementById("btVerseVisible").onclick = setVerseVisible;
+
+  //Supported versions
   document.getElementById("btUpdateVersions").onclick = updateVersions;
   await fillVersions();
   await fillSupportedLanguages();
@@ -100,6 +132,7 @@ Office.onReady().then(async function() {
   prevBook = document.getElementById("prevBook");
   prevVerse = document.getElementById("prevVerse");
   prevText = document.getElementById("prevText");
+  prevVersion = document.getElementById("prevVersion");
 
   const cbLang = document.getElementById("cbLang");
   cbLang.onclick = setAppLanguage;
@@ -113,6 +146,7 @@ Office.onReady().then(async function() {
 });
 
 function settingSavedValues() {
+  document.getElementsByName("btParAlign").value = settings.par.align;
   //select btInter2
   //Book
   document.getElementById("btBookBold").checked = settings.book.bold;
@@ -134,8 +168,21 @@ function settingSavedValues() {
   document.getElementById("btTextSub").checked = settings.text.subscript;
   document.getElementById("btTextSuper").checked = settings.text.superscript;
   document.getElementById("btTextUnder").checked = settings.text.underline;
+
+  //Preferred disposition: version, chapter and book
+  document.getElementById("btVersionVisible").checked = settings.version.visible;
+  document.getElementById("cbVersWrapper").value = settings.version.wrapper;
+  document.getElementsByName("btVersAlign").value = settings.version.align;
+  document.getElementById("cbVersPos").value = settings.version.pos;
+  document.getElementById("cbBCPres").value = settings.bc.presentation;
+  document.getElementById("cbBCWrapper").value = settings.bc.wrapper;
+  document.getElementsByName("btBCAlign").value = settings.bc.align;
+  document.getElementById("cbBCPos").value = settings.bc.pos;
+  document.getElementById("btVerseVisible").checked = settings.verse.visible;
+
   updatePreview();
 }
+
 function updatePreview() {
   prevParagraph.style["text-align"] = settings.par.align;
   prevParagraph.style["line-height"] = settings.par.interline * 100 + "%";
@@ -172,6 +219,17 @@ function updatePreview() {
   prevText.style["vertical-align"] = settings.text.subscript ? "sub" : "baseline";
   prevText.style["vertical-align"] = settings.text.superscript ? "super" : "baseline";
   prevText.style["text-decoration"] = settings.text.underline ? "underline" : "none";
+
+  //Preferred disposition: version, chapter and book
+  prevVersion.style["font-size"] = settings.text.fontSize + "px";
+  prevVersion.style["display"] = settings.version.visible ? "block" : "none";
+  prevVersion.innerHTML = wrap(PREV_VERSION, settings.version.wrapper);
+  prevVersion.style["text-align"] = settings.version.align;
+  updatePreviewVersionPos();
+  prevBook.innerHTML = wrap(getBookPresentation(), settings.bc.wrapper);
+  prevParagraph.style["text-align"] = settings.bc.align;
+  updatePreviewBCPosition();
+  prevVerse.style["display"] = settings.verse.visible ? "inline" : "none";
 }
 function toggleParagraphCard(id) {
   const classHiden = "is-hidden";
@@ -258,6 +316,7 @@ function setParRightOutdent() {
   save();
 }
 function setParFontFamily() {
+  console.log(document.getElementById("cbFontFamily").value);
   settings.par.fontFamily = document.getElementById("cbFontFamily").value;
   prevParagraph.style["font-family"] = settings.par.fontFamily;
   save();
@@ -407,6 +466,109 @@ function setTextUnder() {
   prevText.style["text-decoration"] = settings.text.underline ? "underline" : "none";
   save();
 }
+
+//Events on version, book and chapter section
+function setVersionVisible() {
+  settings.version.visible = document.getElementById("btVersionVisible").checked;
+  prevVersion.style["display"] = settings.version.visible ? "block" : "none";
+  save();
+}
+function setVersionWrapper() { 
+  settings.version.wrapper = document.getElementById("cbVersWrapper").value;
+  prevVersion.innerHTML = wrap(PREV_VERSION, settings.version.wrapper);
+  save();
+}
+function wrap(s, wrapChar) {
+  return wrapChar + s + getClosingChar(wrapChar);
+}
+function getClosingChar(c) {
+  if (c === '(') {
+    return ')';
+  } else if (c === '[') {
+    return ']';
+  }
+  return '';
+}
+function setVersionAlign() {
+  const radios = document.getElementsByName("btVersAlign");
+  for (let r of radios) {
+    if (r.checked) {
+      settings.version.align = r.value;
+      break;
+    }
+  }
+  prevVersion.style["text-align"] = settings.version.align;
+  save();  
+}
+function setVersionPos() {
+  settings.version.pos = document.getElementById("cbVersPos").value;
+  updatePreviewVersionPos();
+  save();
+}
+function updatePreviewVersionPos() {
+  if (settings.version.pos === "up") {
+    prevVersion.parentNode.insertBefore(prevVersion, prevParagraph.firstElementChild.nextSibling);
+  } else {
+    prevVersion.parentNode.appendChild(prevVersion);
+  }
+}
+function setBCPresentation() {
+  settings.bc.presentation = document.getElementById("cbBCPres").value;
+  prevBook.innerHTML = getBookPresentation();
+  save();
+}
+function getBookPresentation() {
+  let book = PREV_BOOK;
+  if (settings.bc.presentation === "def") {
+    book = PREV_BOOK;
+  } else if (settings.bc.presentation === "abb") {
+    book = PREV_BOOK_ABB;
+  } else if (settings.bc.presentation === "full") {
+    book = PREV_BOOK_FULL;
+  }
+  return book;
+}
+function setBCWrapper() {
+  settings.bc.wrapper = document.getElementById("cbBCWrapper").value;
+  prevBook.innerHTML = wrap(getBookPresentation(), settings.bc.wrapper);
+  save();
+}
+function setBCAlign() {
+  const radios = document.getElementsByName("btBCAlign");
+  for (let r of radios) {
+    if (r.checked) {
+      settings.bc.align = r.value;
+      break;
+    }
+  }
+  prevParagraph.style["text-align"] = settings.bc.align;
+  save();
+}
+function setBCPosition() {
+  settings.bc.pos = document.getElementById("cbBCPos").value;
+  updatePreviewBCPosition();
+  save();
+}
+function updatePreviewBCPosition() {
+  if (settings.bc.pos === "up") {
+    prevBook.parentNode.insertBefore(prevBook, document.getElementById("prevVerseText"));
+    prevBook.style.display = "block";
+  } else if (settings.bc.pos === "down") {
+    prevBook.parentNode.appendChild(prevBook);
+    prevBook.style.display = "block";
+  } else {
+    prevBook.parentNode.appendChild(prevBook);
+    prevBook.style.display = "inline";
+  }
+}
+
+function setVerseVisible() {
+  settings.verse.visible = document.getElementById("btVerseVisible").checked;
+  prevVerse.style["display"] = settings.verse.visible ? "inline" : "none";
+  save();
+}
+
+
 
 function save() {
   localStorage.setItem("bible.settings", JSON.stringify(settings));

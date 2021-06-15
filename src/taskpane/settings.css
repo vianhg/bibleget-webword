@@ -11,7 +11,7 @@ form {
   padding-top: 1rem;
 }
 
-label.checkbox input {
+label.checkbox input.checkbutton {
   display: none;
 }
 label.checkbox input:checked + span {
@@ -19,8 +19,31 @@ label.checkbox input:checked + span {
   border-left: solid 1px #bbbbbb;
   border-right: solid 1px white;
   border-bottom: solid 1px white;
-  background-color: #dadada;  
+  background-color: #dadada;
 }
+
+#formVersion select,
+#formBC select {
+  display: inline-block;
+}
+#formVersion label.checkbox span.lb,
+#formVersion div.select,
+#formBC div.select {
+  margin-right: 1.5em;
+}
+#formVersion div.select span.lb,
+#formBC div.select span.lb {
+  margin-right: 1ex;
+}
+
+.preview-cont {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 7;
+  background-color: #fff;
+}
+
 #prevParagraph .rule {
   height: 20px;
   width: 100%;
@@ -31,14 +54,14 @@ label.checkbox input:checked + span {
   position: relative;
 }
 
-#prevParagraph .rule .measures .indent {  
+#prevParagraph .rule .measures .indent {
   display: inline-block !important;
   position: absolute;
   left: -8px;
   top: -8px;
   text-indent: 0;
   padding: 8px 0 0 0;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   font-size: 12px;
 }
 #prevParagraph .rule .measures .indent:before {
@@ -48,7 +71,7 @@ label.checkbox input:checked + span {
   width: 0;
   height: 0;
   top: 28px;
-  border-bottom: 8px solid #C8A962;
+  border-bottom: 8px solid #c8a962;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   vertical-align: middle;
@@ -56,14 +79,14 @@ label.checkbox input:checked + span {
   padding: 0;
 }
 
-#prevParagraph .rule .measures .outdent {  
+#prevParagraph .rule .measures .outdent {
   display: inline-block !important;
   position: absolute;
   right: -8px;
   top: -8px;
   text-indent: 0;
   padding: 8px 0 0 0;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   font-size: 12px;
 }
 #prevParagraph .rule .measures .outdent:before {
@@ -74,7 +97,7 @@ label.checkbox input:checked + span {
   height: 0;
   right: 0px;
   top: 28px;
-  border-bottom: 8px solid #C8A962;
+  border-bottom: 8px solid #c8a962;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   vertical-align: middle;

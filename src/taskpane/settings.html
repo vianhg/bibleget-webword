@@ -17,6 +17,27 @@
 
   <body>
     <div class="has-text-centered"><img src="../../assets/icon-64.png" alt="" /></div>
+    
+    <!-- Vista previa -->
+    <div class="content preview-cont">     
+      <section class="container is-fluid">
+        <h2 class="title" translate="SETTING_PREVIEW">Vista previa</h2>
+        <div class="box">
+          <div id="prevParagraph" >
+            <div class="rule">
+              <div class="measures">
+                <div id="prevIndent" class="indent">0mm</div>
+                <div id="prevOutdent" class="outdent">0mm</div>
+              </div>
+            </div>
+            <div id="prevVersion">VGCL</div>
+            <span id="prevBook">Genesis 1</span>
+            <span id="prevVerseText"><span id="prevVerse">1</span> <span id="prevText">In principio creavit Deus cælum et terram.</span></span>
+          </div>
+        </div>
+      </section>
+    </div>
+    <hr />
     <section class="container is-fluid">
       <h2 class="title" translate="SETTING_TIT_FORMAT">Formato del texto</h2>
       <div class="message is-dark">
@@ -44,19 +65,19 @@
                   <button type="button" id="btLeftIndent" class="button is-white"><i class="fa fa-indent"></i></button>
                 </p>
                 <label class="checkbox">
-                  <input name="btParAlign" type="radio" value="left" selected />
+                  <input name="btParAlign" type="radio" value="left" selected class="checkbutton" />
                   <span class="button is-white"><i class="fa fa-align-left"></i></span>
                 </label>
                 <label class="checkbox">
-                  <input name="btParAlign" type="radio" value="center" />
+                  <input name="btParAlign" type="radio" value="center" class="checkbutton" />
                   <span class="button is-white"><i class="fa fa-align-center"></i></span>
                 </label>
                 <label class="checkbox">
-                  <input name="btParAlign" type="radio" value="right" />
+                  <input name="btParAlign" type="radio" value="right" class="checkbutton" />
                   <span class="button is-white"><i class="fa fa-align-right"></i></span>
                 </label>
                 <label class="checkbox">
-                  <input name="btParAlign" type="radio" value="justify" />
+                  <input name="btParAlign" type="radio" value="justify" class="checkbutton" />
                   <span class="button is-white"><i class="fa fa-align-justify"></i></span>
                 </label>                
                 <div class="dropdown is-hoverable">
@@ -108,23 +129,23 @@
             <form id="formBook" class="is-hidden">
               <div class="field is-grouped-multiline is-horizontal">
                 <label class="checkbox">
-                  <input id="btBookBold" type="checkbox" />
+                  <input id="btBookBold" type="checkbox" class="checkbutton" />
                   <span class="button is-white"><i class="fa fa-bold"></i></span>
                 </label>
                 <label class="checkbox">
-                  <input id="btBookItalic" type="checkbox" />
+                  <input id="btBookItalic" type="checkbox" class="checkbutton" />
                   <span class="button is-white"><i class="fa fa-italic"></i></span>
                 </label>
                 <label class="checkbox">
-                  <input id="btBookUnder" type="checkbox" />
+                  <input id="btBookUnder" type="checkbox" class="checkbutton" />
                   <span class="button is-white"><i class="fa fa-underline"></i></span>
                 </label>
                 <label class="checkbox">
-                  <input id="btBookSub" type="checkbox" />
+                  <input id="btBookSub" type="checkbox" class="checkbutton" />
                   <span class="button is-white"><i class="fa fa-subscript"></i></span>
                 </label>
                 <label class="checkbox">
-                  <input id="btBookSuper" type="checkbox" />
+                  <input id="btBookSuper" type="checkbox" class="checkbutton" />
                   <span class="button is-white"><i class="fa fa-superscript"></i></span>
                 </label>
                 <div class="select is-rounded">
@@ -133,11 +154,11 @@
                   </select>
                 </div>
                 <label class="checkbox">
-                  <input id="btBookColor" type="color" ></input>
+                  <input id="btBookColor" type="color" class="checkbutton" ></input>
                   <span class="button is-danger is-inverted"><i class="fa fa-font"></i></span>
                 </label>
                 <label class="checkbox">
-                  <input id="btBookBack" type="color" ></input>
+                  <input id="btBookBack" type="color" class="checkbutton" ></input>
                   <span class="button is-warning"><i class="fa fa-font"></i></span>
                 </label>
               </div>
@@ -162,23 +183,23 @@
             <form id="formNum" class="is-hidden">
               <div class="field is-grouped-multiline is-horizontal">
                 <label class="checkbox">
-                  <input id="btNumBold" type="checkbox" />
+                  <input id="btNumBold" type="checkbox" class="checkbutton" />
                   <span class="button is-white"><i class="fa fa-bold"></i></span>
                 </label>
                 <label class="checkbox">
-                  <input id="btNumItalic" type="checkbox" />
+                  <input id="btNumItalic" type="checkbox" class="checkbutton" />
                   <span class="button is-white"><i class="fa fa-italic"></i></span>
                 </label>
                 <label class="checkbox">
-                  <input id="btNumUnder" type="checkbox" />
+                  <input id="btNumUnder" type="checkbox" class="checkbutton" />
                   <span class="button is-white"><i class="fa fa-underline"></i></span>
                 </label>
                 <label class="checkbox">
-                  <input id="btNumSub" type="checkbox" />
+                  <input id="btNumSub" type="checkbox" class="checkbutton" />
                   <span class="button is-white"><i class="fa fa-subscript"></i></span>
                 </label>
                 <label class="checkbox">
-                  <input id="btNumSuper" type="checkbox" />
+                  <input id="btNumSuper" type="checkbox" class="checkbutton" />
                   <span class="button is-white"><i class="fa fa-superscript"></i></span>
                 </label>
                 <div class="select is-rounded">
@@ -187,11 +208,11 @@
                   </select>
                 </div>
                 <label class="checkbox">
-                  <input id="btNumColor" type="color" ></input>
+                  <input id="btNumColor" type="color" class="checkbutton" ></input>
                   <span class="button is-danger is-inverted"><i class="fa fa-font"></i></span>
                 </label>
                 <label class="checkbox">
-                  <input id="btNumBack" type="color" ></input>
+                  <input id="btNumBack" type="color" class="checkbutton" ></input>
                   <span class="button is-warning"><i class="fa fa-font"></i></span>
                 </label>
               </div>
@@ -216,23 +237,23 @@
             <form id="formText" class="is-hidden">
               <div class="field is-grouped-multiline is-horizontal">
                 <label class="checkbox">
-                  <input id="btTextBold" type="checkbox" />
+                  <input id="btTextBold" type="checkbox" class="checkbutton" />
                   <span class="button is-white"><i class="fa fa-bold"></i></span>
                 </label>
                 <label class="checkbox">
-                  <input id="btTextItalic" type="checkbox" />
+                  <input id="btTextItalic" type="checkbox" class="checkbutton" />
                   <span class="button is-white"><i class="fa fa-italic"></i></span>
                 </label>
                 <label class="checkbox">
-                  <input id="btTextUnder" type="checkbox" />
+                  <input id="btTextUnder" type="checkbox" class="checkbutton" />
                   <span class="button is-white"><i class="fa fa-underline"></i></span>
                 </label>
                 <label class="checkbox">
-                  <input id="btTextSub" type="checkbox" />
+                  <input id="btTextSub" type="checkbox" class="checkbutton" />
                   <span class="button is-white"><i class="fa fa-subscript"></i></span>
                 </label>
                 <label class="checkbox">
-                  <input id="btTextSuper" type="checkbox" />
+                  <input id="btTextSuper" type="checkbox" class="checkbutton" />
                   <span class="button is-white"><i class="fa fa-superscript"></i></span>
                 </label>
                 <div class="select is-rounded">
@@ -241,11 +262,11 @@
                   </select>
                 </div>
                 <label class="checkbox">
-                  <input id="btTextColor" type="color" ></input>
+                  <input id="btTextColor" type="color" class="checkbutton" ></input>
                   <span class="button is-danger is-inverted"><i class="fa fa-font"></i></span>
                 </label>
                 <label class="checkbox">
-                  <input id="btTextBack" type="color" ></input>
+                  <input id="btTextBack" type="color" class="checkbutton" ></input>
                   <span class="button is-warning"><i class="fa fa-font"></i></span>
                 </label>
               </div>
@@ -254,27 +275,125 @@
         </div>
         <!-- end card content-->
       </div>
-    </section>
 
-    <!-- Vista previa -->
-    <div class="content">
-      <hr />
-      <section class="container is-fluid">
-        <h2 class="title" translate="SETTING_PREVIEW">Vista previa</h2>
-        <div class="box">
-          <div id="prevParagraph" >
-            <div class="rule">
-              <div class="measures">
-                <div id="prevIndent" class="indent">0mm</div>
-                <div id="prevOutdent" class="outdent">0mm</div>
+      <!--Disposición preferida -->
+      <h2 class="title" translate="SETTING_TIT_DIS">Disposición preferida</h2>
+
+      <div class="message is-dark">
+        <div class="message-body">
+          <div class="content">
+            <h4 class="title">
+              <span translate="SETTING_TIT_VERS">Versión</span>
+              <button id="btCollapseVersion" class="button is-white is-small is-pulled-right" aria-label="more options">
+                <span class="icon">
+                  <i class="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+              </button>
+            </h4>
+            <form id="formVersion" class="is-hidden">
+              <div class="field is-grouped-multiline is-horizontal is-align-items-center">
+                <label class="checkbox">
+                  <input id="btVersionVisible" type="checkbox" />
+                  <span class="lb" translate="SETTING_VERS_VIS">Visible</span>
+                </label>
+                <div class="select is-rounded is-flex is-align-items-center">
+                  <span class="lb" translate="SETTING_VERS_WRAP">Envoltorio</span>
+                  <select id="cbVersWrapper">
+                    <option translate="SETTING_WRAPPER_NONE" value="">Ninguno</option>
+                    <option translate="SETTING_WRAPPER_PAREN" value="(">Paréntesis</option>
+                    <option translate="SETTING_WRAPPER_BRACK" value="[">Corchetes</option>
+                  </select>
+                </div>
+                <!--Alineación -->
+                <label class="checkbox">
+                  <input name="btVersAlign" type="radio" value="left" selected class="checkbutton" />
+                  <span class="button is-white"><i class="fa fa-align-left"></i></span>
+                </label>
+                <label class="checkbox">
+                  <input name="btVersAlign" type="radio" value="center" class="checkbutton" />
+                  <span class="button is-white"><i class="fa fa-align-center"></i></span>
+                </label>
+                <label class="checkbox">
+                  <input name="btVersAlign" type="radio" value="right" class="checkbutton" />
+                  <span class="button is-white"><i class="fa fa-align-right"></i></span>
+                </label>
+                <!-- Posicionamiento -->
+                <div class="select is-rounded is-flex is-align-items-center">
+                  <span class="lb" translate="SETTING_VERS_POS">Posicionamiento</span>
+                  <select id="cbVersPos">
+                    <option translate="SETTING_VERS_POS_UP" value="up">Superior</option>
+                    <option translate="SETTING_VERS_POS_DOWN" value="down">Inferior</option>
+                  </select>
+                </div>
               </div>
-            </div>
-            <span id="prevBook">Genesis 1</span>
-            <p><span id="prevVerse">1</span> <span id="prevText">In principio creavit Deus cælum et terram.</span></p>
+            </form>
           </div>
         </div>
-      </section>
-    </div>
+        <!-- end card content-->
+      </div>
+      
+      <div class="message is-dark">
+        <div class="message-body">
+          <div class="content">
+            <h4 class="title">
+              <span translate="SETTING_TIT_BC">Libro y capítulo</span>
+              <button id="btCollapseBC" class="button is-white is-small is-pulled-right" aria-label="more options">
+                <span class="icon">
+                  <i class="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+              </button>
+            </h4>
+            <form id="formBC" class="is-hidden">
+              <div class="field is-grouped-multiline is-horizontal is-align-items-center">
+                <div class="select is-rounded is-flex is-align-items-center">
+                  <span class="lb" translate="SETTING_BC_PRES">Presentación</span>
+                  <select id="cbBCPres">
+                    <option translate="SETTING_BC_PRES_BV" value="def">Idioma version de la Biblia</option>
+                    <option translate="SETTING_BC_PRES_BVA" value="abb">Idioma version de la Biblia (Abrev)</option>
+                    <option translate="SETTING_BC_PRES_FULL" value="full">Muestra referencia completa</option>
+                  </select>
+                </div>
+                <div class="select is-rounded is-flex is-align-items-center">
+                  <span class="lb" translate="SETTING_BC_WRAP">Envoltorio</span>
+                  <select id="cbBCWrapper">
+                    <option translate="SETTING_WRAPPER_NONE" value="">Ninguno</option>
+                    <option translate="SETTING_WRAPPER_PAREN" value="(">Paréntesis</option>
+                    <option translate="SETTING_WRAPPER_BRACK" value="[">Corchetes</option>
+                  </select>
+                </div>
+                <!--Alineación -->
+                <label class="checkbox">
+                  <input name="btBCAlign" type="radio" value="left" selected class="checkbutton" />
+                  <span class="button is-white"><i class="fa fa-align-left"></i></span>
+                </label>
+                <label class="checkbox">
+                  <input name="btBCAlign" type="radio" value="center" class="checkbutton" />
+                  <span class="button is-white"><i class="fa fa-align-center"></i></span>
+                </label>
+                <label class="checkbox">
+                  <input name="btBCAlign" type="radio" value="right" class="checkbutton" />
+                  <span class="button is-white"><i class="fa fa-align-right"></i></span>
+                </label>
+                <!-- Posicionamiento -->
+                <div class="select is-rounded is-flex is-align-items-center">
+                  <span class="lb" translate="SETTING_BC_POS">Posicionamiento</span>
+                  <select id="cbBCPos">
+                    <option translate="SETTING_BC_POS_UP" value="up">Superior</option>
+                    <option translate="SETTING_BC_POS_DOWN" value="down">Inferior</option>
+                    <option translate="SETTING_BC_POS_IN_DOWN" value="inline-down">Inferior en la línea</option>
+                  </select>
+                </div>
+                <label class="checkbox">
+                  <input id="btVerseVisible" type="checkbox" />
+                  <span translate="SETTING_VERSE_VIS">Versículo visible</span>
+                </label>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- end card content-->
+      </div>
+    </section>
 
     <!-- Sección versiones e idiomas compatibles -->
     <div class="content">
