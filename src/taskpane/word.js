@@ -6,6 +6,8 @@
 const i18n = require("./i18n");
 
 var settings = {
+  version: { visible: false, wrapper: "", align: "left", pos: "up" },
+  bc: { presentation: "def", wrapper: "", align: "left", pos: "up" },
   par: { align: "left", interline: 1, leftIndent: 0, rightIndent: 0, fontFamily: "Arial" },
   book: {
     fontSize: 10,
@@ -18,6 +20,7 @@ var settings = {
     underline: false
   },
   verse: {
+    visible: true,
     fontSize: 10,
     bold: false,
     color: "black",
@@ -130,7 +133,7 @@ function setPreferedVersion() {
       }
     }
   } catch (e) {
-    console.log(e);
+    console.warn(e);
   }
 }
 
@@ -147,10 +150,8 @@ async function searchByQuote(document, quote, version, preferOrigin) {
     const verses = await BibleGetService.getByQuote(quote, version, preferOrigin);
     let range = document.getSelection();
 
-    insertVersion(range);
-
     for (let i in verses) {
-      insertQuote(range, verses[i]);
+      insertQuote(range, verses[i], i === '0');
     }
   } catch (e) {
     notifyError(i18n.tr("ERROR_SEARCH_BY_QUOTE"));
@@ -201,25 +202,21 @@ export const insertResult = q => {
   });
 };
 
-function insertQuote(range, quote, insVersion = false) {
-  if (insVersion) {
+function insertQuote(range, quote, insVersion) {
+  if (insVersion && settings.version.pos === "up") {
     insertVersion(range);
   }
+ 
+  if (settings.bc.pos == "up") {
+    insQuoteBook(range, quote);
+  }
 
-  const verse = range.insertText(quote.verse + " ", "End");
-  setParagraphStyle(verse.paragraphs.getFirstOrNullObject());
-  verse.font.set({
-    name: settings.par.fontFamily,
-    bold: settings.verse.bold,
-    size: parseInt(settings.verse.fontSize),
-    superscript: settings.verse.superscript,
-    subscript: settings.verse.subscript,
-    underline: settings.verse.underline ? Word.UnderlineType.single : Word.UnderlineType.none,
-    color: settings.verse.color,
-    italic: settings.verse.italic,
-    highlightColor: settings.verse.background
-  });
+  if (settings.verse.visible) {
+    insQuoteVerse(range, quote);    
+  }
+  
   const text = range.insertText(quote.text, "End");
+  setParagraphStyle(text.paragraphs.getFirstOrNullObject(), settings.par.align);
   text.font.set({
     name: settings.par.fontFamily,
     bold: settings.text.bold,
@@ -231,16 +228,67 @@ function insertQuote(range, quote, insVersion = false) {
     italic: settings.text.italic,
     highlightColor: settings.text.background
   });
+  if (settings.bc.pos === "down" || settings.bc.pos === "inline-down") {
+    insQuoteBook(range, quote);
+  }
+  if (insVersion && settings.version.visible && settings.version.pos === "down") {
+    insertVersion(range);
+  }
 }
 
 function insertVersion(range) {
-  const version = range.insertParagraph(getSavedVersion(), Word.InsertLocation.before);
+  if (settings.version.visible) {
+    const location = settings.version.pos === "up"? Word.InsertLocation.before : Word.InsertLocation.after;
+    const version = range.insertParagraph(getSavedVersion(), location);
 
-  setParagraphStyle(version);
-  version.font.set({
-    name: settings.par.fontFamily
+    setParagraphStyle(version, settings.version.align);
+    version.font.set({
+      name: settings.par.fontFamily
+    });
+    version.font.set({
+      bold: settings.book.bold,
+      size: parseInt(settings.book.fontSize),
+      superscript: settings.book.superscript,
+      subscript: settings.book.subscript,
+      underline: settings.book.underline ? Word.UnderlineType.single : Word.UnderlineType.none,
+      color: settings.book.color,
+      italic: settings.book.italic,
+      highlightColor: settings.book.background
+    });
+  }
+}
+
+function setParagraphStyle(par, align) {
+  par.alignment = getWordAlign(align);
+  par.leftIndent = settings.par.leftIndent / 0.3527;
+  par.rightIndent = settings.par.rightIndent / 0.3527;
+  par.lineSpacing = 10 * settings.par.interline;
+}
+function getWordAlign(align) {
+  switch (align) {
+    case "center":
+      return Word.Alignment.centered;
+    case "left":
+        return Word.Alignment.left;
+    case "right":
+      return Word.Alignment.right;
+    default:
+      return Word.Alignment.unknown;
+  }
+}
+function insQuoteBook(range, quote) {
+  let book = null;
+  if (settings.bc.pos === "inline-down") {
+    book = range.insertText(getBookPres(quote), Word.InsertLocation.end);
+  } else {
+    const location = settings.bc.pos === "up"? Word.InsertLocation.before : Word.InsertLocation.after;
+    book = range.insertParagraph(getBookPres(quote), location);
+    setParagraphStyle(book, settings.book.align);
+  }
+  book.font.set({
+    name: settings.bc.fontFamily
   });
-  version.font.set({
+  book.font.set({
     bold: settings.book.bold,
     size: parseInt(settings.book.fontSize),
     superscript: settings.book.superscript,
@@ -250,19 +298,38 @@ function insertVersion(range) {
     italic: settings.book.italic,
     highlightColor: settings.book.background
   });
-  return version;
+  return book;
 }
-function setParagraphStyle(par) {
-  par.alignment = settings.par.align;
-  par.leftIndent = settings.par.leftIndent / 0.3527;
-  par.rightIndent = settings.par.rightIndent / 0.3527;
-  par.lineSpacing = 10 * settings.par.interline;
+function getBookPres(quote) {
+  let bookText = quote.book + " " + quote.chapter;
+  if (settings.bc.presentation === "abb") {
+    bookText = quote.bookabbrev + " " + quote.chapter;
+  } else if (settings.bc.presentation === "full") {
+    bookText = quote.book + " " + quote.chapter + ", " + quote.verse;
+  }
+  return wrap(bookText, settings.bc.wrapper);
+}
+function insQuoteVerse(range, quote) {
+  const verse = range.insertText(quote.verse + " ", "End");
+  verse.font.set({
+    name: settings.par.fontFamily,
+    bold: settings.verse.bold,
+    size: parseInt(settings.verse.fontSize),
+    superscript: settings.verse.superscript,
+    subscript: settings.verse.subscript,
+    underline: settings.verse.underline ? Word.UnderlineType.single : Word.UnderlineType.none,
+    color: settings.verse.color,
+    italic: settings.verse.italic,
+    highlightColor: settings.verse.background
+  });
 }
 
 function getSavedVersion() {
-  return localStorage.getItem("bible.selectedversion");
+  return wrap(localStorage.getItem("bible.selectedversion"), settings.version.wrapper);
 }
-
+function wrap(s, wrapChar) {
+  return wrapChar.charAt(0) + s + wrapChar.charAt(1);
+}
 /**************************************** */
 async function loadVersions() {
   try {

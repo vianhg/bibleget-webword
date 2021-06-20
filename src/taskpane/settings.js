@@ -11,7 +11,7 @@ var prevVersion;
 
 var settings = {
   version: { visible: false, wrapper: "", align: "left", pos: "up" },
-  bc: { presentation: "def", wrapper: "", align: "left", pos: "up"},
+  bc: { presentation: "def", wrapper: "", align: "left", pos: "up" },
   par: { align: "left", interline: 1, leftIndent: 0, rightIndent: 0, fontFamily: "Arial" },
   book: {
     fontSize: 10,
@@ -49,6 +49,19 @@ const i18n = require("./i18n");
 
 Office.onReady().then(async function() {
   i18n.loadTranslations();
+  
+  prevParagraph = document.getElementById("prevParagraph");
+  prevBook = document.getElementById("prevBook");
+  prevVerse = document.getElementById("prevVerse");
+  prevText = document.getElementById("prevText");
+  prevVersion = document.getElementById("prevVersion");
+
+  const str = localStorage.getItem("bible.settings");
+  if (str != null) {
+    settings = JSON.parse(str);
+    settingSavedValues();
+  }
+
   document.getElementById("btCollapsePar").onclick = () => toggleParagraphCard("formPar");
   document.getElementById("btCollapseBook").onclick = () => toggleParagraphCard("formBook");
   document.getElementById("btCollapseNum").onclick = () => toggleParagraphCard("formNum");
@@ -114,7 +127,7 @@ Office.onReady().then(async function() {
   document.getElementById("cbVersWrapper").onchange = setVersionWrapper;
   document.getElementsByName("btVersAlign").forEach(r => (r.onclick = setVersionAlign));
   document.getElementById("cbVersPos").onchange = setVersionPos;
-  
+
   //Book and chapter
   document.getElementById("cbBCPres").onchange = setBCPresentation;
   document.getElementById("cbBCWrapper").onchange = setBCWrapper;
@@ -128,21 +141,10 @@ Office.onReady().then(async function() {
   document.getElementById("btUpdateVersions").onclick = updateVersions;
   await fillVersions();
   await fillSupportedLanguages();
-  prevParagraph = document.getElementById("prevParagraph");
-  prevBook = document.getElementById("prevBook");
-  prevVerse = document.getElementById("prevVerse");
-  prevText = document.getElementById("prevText");
-  prevVersion = document.getElementById("prevVersion");
-
+  
   const cbLang = document.getElementById("cbLang");
   cbLang.onclick = setAppLanguage;
   cbLang.value = localStorage.getItem("bible.i18n.lang");
-
-  const str = localStorage.getItem("bible.settings");
-  if (str != null) {
-    settings = JSON.parse(str);
-    settingSavedValues();
-  }
 });
 
 function settingSavedValues() {
@@ -243,7 +245,68 @@ function toggleParagraphCard(id) {
 
 //events on paragraph section
 function fillFontFamilyComb(combo) {
-  const fontsToCheck = ["Arial", "Arial Black", "Bodoni", "Book Antiqua"];
+  const fontsToCheck = [
+    "Arial",
+    "Arial Black",
+    "Bahnschrift",
+    "Bodoni",
+    "Calibri",
+    "Cambria",
+    "Cambria Math",
+    "Candara",
+    "Comic Sans MS",
+    "Consolas",
+    "Constantia",
+    "Corbel",
+    "Courier New",
+    "Ebrima",
+    "Franklin Gothic Medium",
+    "Gabriola",
+    "Gadugi",
+    "Georgia",
+    "HoloLens MDL2 Assets",
+    "Impact",
+    "Ink Free",
+    "Javanese Text",
+    "Leelawadee UI",
+    "Lucida Console",
+    "Lucida Sans Unicode",
+    "Malgun Gothic",
+    "Marlett",
+    "Microsoft Himalaya",
+    "Microsoft JhengHei",
+    "Microsoft New Tai Lue",
+    "Microsoft PhagsPa",
+    "Microsoft Sans Serif",
+    "Microsoft Tai Le",
+    "Microsoft YaHei",
+    "Microsoft Yi Baiti",
+    "MingLiU-ExtB",
+    "Mongolian Baiti",
+    "MS Gothic",
+    "MV Boli",
+    "Myanmar Text",
+    "Nirmala UI",
+    "Palatino Linotype",
+    "Segoe MDL2 Assets",
+    "Segoe Print",
+    "Segoe Script",
+    "Segoe UI",
+    "Segoe UI Historic",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    "SimSun",
+    "Sitka",
+    "Sylfaen",
+    "Symbol",
+    "Tahoma",
+    "Times New Roman",
+    "Trebuchet MS",
+    "Verdana",
+    "Webdings",
+    "Wingdings",
+    "Yu Gothic"
+  ];
   const availableFonts = new Set();
   for (const font of fontsToCheck) {
     if (document.fonts.check(`12px "${font}"`)) {
@@ -282,19 +345,19 @@ function setParLineHeight(heigth) {
   prevParagraph.style["line-height"] = heigth * 100 + "%";
   save();
 }
-function setIndent(styleName, divName, indent) {  
+function setIndent(styleName, divName, indent) {
   prevParagraph.style[styleName] = indent + "px";
   let indentPointer = document.getElementById(divName);
   if (divName === "prevIndent") {
-    indentPointer.style.left = (indent - 8)+"px";
+    indentPointer.style.left = indent - 8 + "px";
   } else {
-    indentPointer.style.right = (indent - 8)+"px";
+    indentPointer.style.right = indent - 8 + "px";
   }
   indentPointer.innerHTML = indent + "mm";
   save();
 }
 function setParLeftIndent() {
-  settings.par.leftIndent += 5;  
+  settings.par.leftIndent += 5;
   setIndent("text-indent", "prevIndent", settings.par.leftIndent);
   save();
 }
@@ -305,7 +368,7 @@ function setParLeftOutdent() {
   save();
 }
 function setParRightIndent() {
-  settings.par.rightIndent = Math.max(settings.par.rightIndent - 5, 0);  
+  settings.par.rightIndent = Math.max(settings.par.rightIndent - 5, 0);
   setIndent("padding-right", "prevOutdent", settings.par.rightIndent);
   save();
 }
@@ -316,7 +379,6 @@ function setParRightOutdent() {
   save();
 }
 function setParFontFamily() {
-  console.log(document.getElementById("cbFontFamily").value);
   settings.par.fontFamily = document.getElementById("cbFontFamily").value;
   prevParagraph.style["font-family"] = settings.par.fontFamily;
   save();
@@ -360,7 +422,7 @@ function setBookItalic() {
   prevBook.style["font-style"] = settings.book.italic ? "italic" : "normal";
   save();
 }
-/*TODO: Se refiere solo al capítulo? Si es a todo, y está en una línea aparte, no tiene sentido */
+
 function setBookSub() {
   settings.book.subscript = document.getElementById("btBookSub").checked;
   document.getElementById("btBookSuper").checked = false;
@@ -473,22 +535,15 @@ function setVersionVisible() {
   prevVersion.style["display"] = settings.version.visible ? "block" : "none";
   save();
 }
-function setVersionWrapper() { 
+function setVersionWrapper() {
   settings.version.wrapper = document.getElementById("cbVersWrapper").value;
   prevVersion.innerHTML = wrap(PREV_VERSION, settings.version.wrapper);
   save();
 }
 function wrap(s, wrapChar) {
-  return wrapChar + s + getClosingChar(wrapChar);
+  return wrapChar.charAt(0) + s + wrapChar.charAt(1);
 }
-function getClosingChar(c) {
-  if (c === '(') {
-    return ')';
-  } else if (c === '[') {
-    return ']';
-  }
-  return '';
-}
+
 function setVersionAlign() {
   const radios = document.getElementsByName("btVersAlign");
   for (let r of radios) {
@@ -498,7 +553,7 @@ function setVersionAlign() {
     }
   }
   prevVersion.style["text-align"] = settings.version.align;
-  save();  
+  save();
 }
 function setVersionPos() {
   settings.version.pos = document.getElementById("cbVersPos").value;
@@ -554,10 +609,10 @@ function updatePreviewBCPosition() {
     prevBook.parentNode.insertBefore(prevBook, document.getElementById("prevVerseText"));
     prevBook.style.display = "block";
   } else if (settings.bc.pos === "down") {
-    prevBook.parentNode.appendChild(prevBook);
+    prevBook.parentNode.insertBefore(prevBook, document.getElementById("prevVerseText").nextElementSibling);
     prevBook.style.display = "block";
   } else {
-    prevBook.parentNode.appendChild(prevBook);
+    prevBook.parentNode.insertBefore(prevBook, document.getElementById("prevVerseText").nextElementSibling);
     prevBook.style.display = "inline";
   }
 }
@@ -567,8 +622,6 @@ function setVerseVisible() {
   prevVerse.style["display"] = settings.verse.visible ? "inline" : "none";
   save();
 }
-
-
 
 function save() {
   localStorage.setItem("bible.settings", JSON.stringify(settings));
@@ -623,7 +676,7 @@ async function getSupportedLanguages() {
     let languages;
     if (json == null) {
       languages = await BibleGetService.getLanguages();
-      languages = languages.sort().map(s => s.slice(0,1) + s.slice(1).toLowerCase());
+      languages = languages.sort().map(s => s.slice(0, 1) + s.slice(1).toLowerCase());
       localStorage.setItem("bible.languages", JSON.stringify(languages));
     } else {
       languages = JSON.parse(json);
